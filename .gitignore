@@ -1,0 +1,76 @@
+### IntelliJ IDEA ###
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+
+# Ignore all .idea/ except useful configs
+.idea/
+!/.idea/codeStyles/
+!/.idea/inspectionProfiles/
+!/.idea/vcs.xml  # Optional: Ignore this unless you want to share VCS settings
+
+# Ignore module files
+*.iml
+
+# Ignore workspace-specific files
+.idea/misc.xml
+.idea/modules.xml
+.idea/workspace.xml
+.idea/shelf/
+
+# Ignore logs and temp files
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+
+# Ignore build output
+/out/
+build/
+target/
+
+# Ignore dependency caches
+node_modules/
+*.jar
+*.war
+*.ear
+*.class
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+*.orig
+
+# Ignore environment files
+.env
+.env.local
