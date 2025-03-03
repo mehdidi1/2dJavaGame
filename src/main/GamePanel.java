@@ -4,9 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
 
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends JPanel implements Runnable {
 
     private static final Logger logger = LogManager.getLogger(GamePanel.class);
 
@@ -20,14 +21,16 @@ public class GamePanel extends JPanel implements Runnable{
     final int screenHeight = tileSize * maxScreenRow;
 
     Thread gameThread;  //Thread better for performance
+    //BasicTreeUI.KeyHandler keyH = new BasicTreeUI.KeyHandler()
 
-    public GamePanel(){
+    public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
+        this.addKeyListener(keyH);
     }
 
-    public void startGameThread(){
+    public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
@@ -36,7 +39,26 @@ public class GamePanel extends JPanel implements Runnable{
     public void run() {
         // Game loop
         while (gameThread != null) {
+
             logger.trace("Game loop running");
+
+            update();
+            logger.trace("Finished updating game fields");
+
+            repaint();
+            logger.trace("Finished repainting sprites");
         }
+    }
+
+    public void update() {
+
+    }
+
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = ((Graphics2D) g);
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(100, 100, tileSize, tileSize);
+        g2d.dispose();
     }
 }
