@@ -1,9 +1,21 @@
 package main;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * This class takes of inputs pressed by the user.
+ * Any new key that needs to be detected should be added here.
+ * The input handler needs to be instantiated and attached to the window.
+ * BE CAREFUL add gamePanel.requestFocusInWindow(); or else key detection won't work
+ */
+
 public class InputHandler implements KeyListener {
+
+    private static final Logger logger = LogManager.getLogger(InputHandler.class);
 
     private boolean upPressed, downPressed, rightPressed, leftPressed;
 
@@ -16,6 +28,7 @@ public class InputHandler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
+        logger.info("Key pressed: {}", keyEvent.getKeyChar());
         int keyCode = keyEvent.getKeyCode();
         if (keyCode == KeyEvent.VK_Z) {
             upPressed = true;
@@ -44,7 +57,7 @@ public class InputHandler implements KeyListener {
         if (keyCode == KeyEvent.VK_Q) {
             leftPressed = false;
         }
-        if (keyCode == KeyEvent.VK_D ) {
+        if (keyCode == KeyEvent.VK_D) {
             rightPressed = false;
         }
 
@@ -54,32 +67,20 @@ public class InputHandler implements KeyListener {
         return upPressed;
     }
 
-    public void setUpPressed(boolean upPressed) {
-        this.upPressed = upPressed;
-    }
 
     public boolean isDownPressed() {
         return downPressed;
     }
 
-    public void setDownPressed(boolean downPressed) {
-        this.downPressed = downPressed;
-    }
 
     public boolean isRightPressed() {
         return rightPressed;
     }
 
-    public void setRightPressed(boolean rightPressed) {
-        this.rightPressed = rightPressed;
-    }
 
     public boolean isLeftPressed() {
         return leftPressed;
     }
 
-    public void setLeftPressed(boolean leftPressed) {
-        this.leftPressed = leftPressed;
-    }
 
 }

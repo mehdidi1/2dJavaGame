@@ -24,5 +24,6 @@ public class Main {
         window.pack();
 
         gamePanel.startGameThread();
+        gamePanel.requestFocusInWindow(); // Ensure GamePanel receives keyboard events
     }
 }
