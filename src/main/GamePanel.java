@@ -1,5 +1,6 @@
 package main;
 
+import entity.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,10 +17,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     private static final Logger logger = LogManager.getLogger(GamePanel.class);
 
-    //Player settings
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 5;
 
     //Screen settings
     final int originalTileSize = 16;
@@ -33,6 +30,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     Thread gameThread;  //Thread better for performance
     InputHandler inputHandler = new InputHandler();
+
+    //Player
+    Player player = new Player(this, inputHandler, 100, 100);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -89,25 +89,17 @@ public class GamePanel extends JPanel implements Runnable {
      * This function must contain everything that need to be constantly updated inside the game loop
      */
     public void update() {
-        if (inputHandler.isDownPressed()) {
-            playerY += playerSpeed;
-        }
-        if (inputHandler.isUpPressed()) {
-            playerY -= playerSpeed;
-        }
-        if (inputHandler.isLeftPressed()) {
-            playerX -= playerSpeed;
-        }
-        if (inputHandler.isRightPressed()) {
-            playerX += playerSpeed;
-        }
+        player.update();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = ((Graphics2D) g);
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(playerX, playerY, tileSize, tileSize);
+        player.draw(g2d);
         g2d.dispose();
+    }
+
+    public int getTileSize() {
+        return tileSize;
     }
 }

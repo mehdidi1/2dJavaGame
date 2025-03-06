@@ -28,7 +28,7 @@ public class InputHandler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        logger.info("Key pressed: {}", keyEvent.getKeyChar());
+        logger.trace("Key pressed: {}", keyEvent.getKeyChar());
         int keyCode = keyEvent.getKeyCode();
         if (keyCode == KeyEvent.VK_Z) {
             upPressed = true;
