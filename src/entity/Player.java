@@ -1,5 +1,6 @@
 package entity;
 
+import main.GameConstants;
 import main.GamePanel;
 import main.InputHandler;
 import org.apache.logging.log4j.LogManager;
@@ -15,14 +16,13 @@ public class Player extends Entity {
     private static final Logger logger = LogManager.getLogger(Player.class);
 
     InputHandler inputHandler;
-    final int playerSpeed = 5;
 
     public Player(GamePanel gamePanel, InputHandler inputHandler, int x, int y) {
         super(gamePanel);
         this.inputHandler = inputHandler;
         setX(x);
         setY(y);
-        setSpeed(playerSpeed);
+        setSpeed(GameConstants.PLAYER_SPEED);
         getPlayerImage();
     }
 
@@ -47,24 +47,23 @@ public class Player extends Entity {
 
     private void updateMovement() {
         if (inputHandler.isDownPressed()) {
-            setY(getY() + playerSpeed);
+            setY(getY() + GameConstants.PLAYER_SPEED);
             setWalking(true);
         } else if (inputHandler.isUpPressed()) {
-            setY(getY() - playerSpeed);
+            setY(getY() - GameConstants.PLAYER_SPEED);
             setWalking(true);
         } else if (inputHandler.isLeftPressed()) {
-            setX(getX() - playerSpeed);
+            setX(getX() - GameConstants.PLAYER_SPEED);
             setWalking(true);
             setFacingLeft(true);
         } else if (inputHandler.isRightPressed()) {
-            setX(getX() + playerSpeed);
+            setX(getX() + GameConstants.PLAYER_SPEED);
             setWalking(true);
             setFacingLeft(false);
         } else {
             setWalking(false);
         }
     }
-
 
     @Override
     public void draw(Graphics2D g2d) {

@@ -102,9 +102,6 @@ public abstract class Entity {
         this.y = y;
     }
 
-    public int getSpeed() {
-        return speed;
-    }
 
     public void setSpeed(int speed) {
         this.speed = speed;
@@ -114,9 +111,6 @@ public abstract class Entity {
         return gamePanel;
     }
 
-    public boolean isWalking() {
-        return isWalking;
-    }
 
     public void setWalking(boolean walking) {
         isWalking = walking;

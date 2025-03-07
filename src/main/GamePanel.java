@@ -5,29 +5,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
-
 import java.awt.*;
 
 /**
  * Class the game window.
  * Contains the main parameters of the game and the game loop.
  */
-
 public class GamePanel extends JPanel implements Runnable {
 
     private static final Logger logger = LogManager.getLogger(GamePanel.class);
-
-
-    //Screen settings
-    final int originalTileSize = 16;
-    final int scale = 3;
-    final int tileSize = originalTileSize * scale;
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol;
-    final int screenHeight = tileSize * maxScreenRow;
-
-    double fps = 60;
 
     Thread gameThread;  //Thread better for performance
     InputHandler inputHandler = new InputHandler();
@@ -36,7 +22,7 @@ public class GamePanel extends JPanel implements Runnable {
     Player player = new Player(this, inputHandler, 100, 100);
 
     public GamePanel() {
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
         this.setBackground(Color.BLUE);
         this.setDoubleBuffered(true);
         this.addKeyListener(inputHandler);
@@ -44,8 +30,24 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void startGameThread() {
-        gameThread = new Thread(this);
-        gameThread.start();
+        try {
+            gameThread = new Thread(this);
+            gameThread.start();
+        } catch (Exception e) {
+            logger.error("Failed to start game thread: {}", e.getMessage());
+        }
+    }
+
+    public void stopGameThread() {
+        if (gameThread != null) {
+            try {
+                gameThread.join();
+                gameThread = null;
+            } catch (InterruptedException e) {
+                logger.error("Error stopping game thread: {}", e.getMessage());
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 
     @Override
@@ -54,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable {
      * fps value can be changed.
      */
     public void run() {
-        double drawInterval = 1000000000 / fps; // Time interval between frames in nanoseconds
+        double drawInterval = 1000000000 / GameConstants.FPS; // Time interval between frames in nanoseconds
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
@@ -95,16 +97,19 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d = ((Graphics2D) g);
-        player.draw(g2d);
-        g2d.dispose();
+        Graphics2D g2d = (Graphics2D) g;
+        try {
+            player.draw(g2d);
+        } finally {
+            g2d.dispose();
+        }
     }
 
     public int getTileSize() {
-        return tileSize;
+        return GameConstants.TILE_SIZE;
     }
 
     public double getFps() {
-        return fps;
+        return GameConstants.FPS;
     }
 }
