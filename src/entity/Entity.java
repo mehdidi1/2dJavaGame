@@ -3,14 +3,27 @@ package entity;
 import main.GamePanel;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 /**
  * Class that represents the entities of the game
  */
 public abstract class Entity {
+
+    //Attributes
     private int x, y;
     private int speed;
-    private GamePanel gamePanel;
+    private final GamePanel gamePanel;
+
+    //animation
+    public BufferedImage[] idleFrames = new BufferedImage[8];
+    public BufferedImage[] walkingFrames = new BufferedImage[8];
+    private boolean isWalking = false;
+    public BufferedImage[] currentAnimationFrames = idleFrames;
+    private int currentAnimationFrameIndex = 0;
+    private boolean facingLeft = false;
+
 
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -25,6 +38,53 @@ public abstract class Entity {
      * Draw the sprite of the entity inside the game loop
      */
     public abstract void draw(Graphics2D g2d);
+
+
+    /*
+    Updates the frame to be displayed at a rate that is independent of current fps
+     */
+    private int spriteCounter = 0;
+
+    protected void updateFrame() {
+        spriteCounter++;
+        if (spriteCounter >= getGamePanel().getFps() / 12) {
+            spriteCounter = 0;
+            setCurrentAnimationFrameIndex((getCurrentAnimationFrameIndex() + 1) % 8);
+        }
+    }
+
+    protected void updateAnimation() {
+        if (isWalking) {
+            currentAnimationFrames = walkingFrames;
+        } else {
+            currentAnimationFrames = idleFrames;
+        }
+    }
+
+    protected BufferedImage flipImage(BufferedImage img) {
+        int width = img.getWidth();
+        int height = img.getHeight();
+
+        // Ensure the new BufferedImage supports transparency
+        BufferedImage flipped = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = flipped.createGraphics();
+
+        // Enable transparency rendering
+        g2d.setComposite(AlphaComposite.Src);
+
+        // Apply horizontal flip transformation
+        AffineTransform transform = AffineTransform.getScaleInstance(-1, 1);
+        transform.translate(-width, 0);
+        g2d.setTransform(transform);
+
+        // Draw the original image onto the flipped canvas
+        g2d.drawImage(img, 0, 0, null);
+
+        g2d.dispose();
+        return flipped;
+    }
+
+
 
     public int getX() {
         return x;
@@ -52,5 +112,30 @@ public abstract class Entity {
 
     public GamePanel getGamePanel() {
         return gamePanel;
+    }
+
+    public boolean isWalking() {
+        return isWalking;
+    }
+
+    public void setWalking(boolean walking) {
+        isWalking = walking;
+    }
+
+
+    public int getCurrentAnimationFrameIndex() {
+        return currentAnimationFrameIndex;
+    }
+
+    public void setCurrentAnimationFrameIndex(int currentAnimationFrameIndex) {
+        this.currentAnimationFrameIndex = currentAnimationFrameIndex;
+    }
+
+    public boolean isFacingLeft() {
+        return facingLeft;
+    }
+
+    public void setFacingLeft(boolean facingLeft) {
+        this.facingLeft = facingLeft;
     }
 }

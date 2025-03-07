@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
     final int maxScreenRow = 12;
     final int screenWidth = tileSize * maxScreenCol;
     final int screenHeight = tileSize * maxScreenRow;
+
     double fps = 60;
 
     Thread gameThread;  //Thread better for performance
@@ -36,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.BLACK);
+        this.setBackground(Color.BLUE);
         this.setDoubleBuffered(true);
         this.addKeyListener(inputHandler);
         this.setFocusable(true);
@@ -101,5 +102,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int getTileSize() {
         return tileSize;
+    }
+
+    public double getFps() {
+        return fps;
     }
 }
