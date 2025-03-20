@@ -29,8 +29,8 @@ public class Player extends Entity {
     public void getPlayerImage() {
         try {
             for (int i = 0; i < 8; i++) {
-                idleFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/idle/frame_" + i + "_delay-0.05s.png")));
-                walkingFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/walking/Knight_7-" + (i + 1) + ".png.png")));
+                idleFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/idle/frame_" + i + "_delay-0.05s.png")));
+                walkingFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/walking/Knight_7-" + (i + 1) + ".png.png")));
             }
 
         } catch (Exception e) {

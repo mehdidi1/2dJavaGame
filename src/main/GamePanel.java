@@ -3,6 +3,7 @@ package main;
 import entity.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     Thread gameThread;  //Thread better for performance
     InputHandler inputHandler = new InputHandler();
+    TileManager tileManager = new TileManager(this);
 
     //Player
     Player player = new Player(this, inputHandler, 100, 100);
@@ -99,6 +101,7 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         try {
+            tileManager.draw(g2d);
             player.draw(g2d);
         } finally {
             g2d.dispose();
@@ -112,4 +115,5 @@ public class GamePanel extends JPanel implements Runnable {
     public double getFps() {
         return GameConstants.FPS;
     }
+
 }
