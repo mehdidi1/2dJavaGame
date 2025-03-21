@@ -27,6 +27,7 @@ public class Player extends Entity {
         getPlayerImage();
         screenX = GameConstants.SCREEN_WIDTH / 2 - GameConstants.TILE_SIZE / 2;
         screenY = GameConstants.SCREEN_HEIGHT / 2 - GameConstants.TILE_SIZE / 2;
+        collider = new Rectangle(8, 12, 32, 32); //Collider box settings
     }
 
     public void getPlayerImage() {
@@ -50,22 +51,46 @@ public class Player extends Entity {
 
     private void updateMovement() {
         if (inputHandler.isDownPressed()) {
-            setWorldY(getWorldY() + GameConstants.PLAYER_SPEED);
             setWalking(true);
+            setDirection(Direction.DOWN);
         } else if (inputHandler.isUpPressed()) {
-            setWorldY(getWorldY() - GameConstants.PLAYER_SPEED);
             setWalking(true);
+            setDirection(Direction.UP);
         } else if (inputHandler.isLeftPressed()) {
-            setWorldX(getWorldX() - GameConstants.PLAYER_SPEED);
             setWalking(true);
             setFacingLeft(true);
+            setDirection(Direction.LEFT);
         } else if (inputHandler.isRightPressed()) {
-            setWorldX(getWorldX() + GameConstants.PLAYER_SPEED);
             setWalking(true);
             setFacingLeft(false);
+            setDirection(Direction.RIGHT);
         } else {
             setWalking(false);
         }
+
+        if (isWalking()) {
+            //Check tile collision
+            setColliding(false);
+            getGamePanel().getCollisionChecker().checkTileCollision(this);
+
+            if (!colliding) {
+                switch (getDirection()) {
+                    case UP:
+                        setWorldY(getWorldY() - GameConstants.PLAYER_SPEED);
+                        break;
+                    case DOWN:
+                        setWorldY(getWorldY() + GameConstants.PLAYER_SPEED);
+                        break;
+                    case LEFT:
+                        setWorldX(getWorldX() - GameConstants.PLAYER_SPEED);
+                        break;
+                    case RIGHT:
+                        setWorldX(getWorldX() + GameConstants.PLAYER_SPEED);
+                        break;
+                }
+            }
+        }
+
     }
 
     @Override

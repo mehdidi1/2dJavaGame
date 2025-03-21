@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+
+
 /**
  * Class that represents the entities of the game
  */
@@ -16,6 +18,9 @@ public abstract class Entity {
     private int worldX, worldY;
     private int speed;
     private final GamePanel gamePanel;
+    protected Rectangle collider;
+    protected boolean colliding = false;
+    private Direction direction = Direction.LEFT;
 
     //animation
     public BufferedImage[] idleFrames = new BufferedImage[8];
@@ -107,6 +112,10 @@ public abstract class Entity {
         this.speed = speed;
     }
 
+    public int getSpeed() {
+        return speed;
+    }
+
     public GamePanel getGamePanel() {
         return gamePanel;
     }
@@ -129,7 +138,28 @@ public abstract class Entity {
         return facingLeft;
     }
 
+    public Rectangle getCollider() {
+        return collider;
+    }
+
     public void setFacingLeft(boolean facingLeft) {
         this.facingLeft = facingLeft;
     }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    public void setColliding(boolean colliding) {
+        this.colliding = colliding;
+    }
+
+    public boolean isWalking() {
+        return isWalking;
+    }
 }
+

@@ -10,6 +10,8 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class TileManager {
@@ -19,8 +21,10 @@ public class TileManager {
     GamePanel gamePanel;
     Tile[] tiles;
     int[][] mapTileNum;
+    HashSet<Integer> collidingTiles = new HashSet<>();
 
     public TileManager(GamePanel gamePanel) {
+        collidingTiles.addAll(Arrays.asList(0, 1, 2, 3, 4, 5, 10, 20, 30, 40, 41, 42, 43, 44, 45, 15, 25, 35));
         this.gamePanel = gamePanel;
         tiles = new Tile[10];
         mapTileNum = new int[GameConstants.MAX_WORLD_COL][GameConstants.MAX_WORLD_ROW];
@@ -39,6 +43,9 @@ public class TileManager {
             try {
                 tiles[i] = new Tile();
                 tiles[i].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/tiles/tile_" + i + ".png")));
+                if (collidingTiles.contains(i)) {
+                    tiles[i].collision = true;
+                }
             } catch (Exception e) {
                 logger.error("Failed to load tile: {}", i, e);
             }
@@ -46,7 +53,7 @@ public class TileManager {
     }
 
     /**
-     *Loads csv map file created using Tiled into mapTileNum
+     * Loads csv map file created using Tiled into mapTileNum
      */
     public void loadMap() {
         try {
@@ -82,6 +89,7 @@ public class TileManager {
 
     /**
      * draws the tiles of the map seen by the camera on the screen
+     *
      * @param g2
      */
     public void draw(Graphics2D g2) {
@@ -106,5 +114,13 @@ public class TileManager {
                 worldRow++;
             }
         }
+    }
+
+    public int[][] getMapTileNum() {
+        return mapTileNum;
+    }
+
+    public Tile[] getTiles() {
+        return tiles;
     }
 }

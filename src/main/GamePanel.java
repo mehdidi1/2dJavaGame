@@ -19,6 +19,7 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;  //Thread better for performance
     InputHandler inputHandler = new InputHandler();
     TileManager tileManager = new TileManager(this);
+    CollisionChecker collisionChecker = new CollisionChecker(this);
 
     //Player
     Player player = new Player(this, inputHandler, 100, 100);
@@ -118,5 +119,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public TileManager getTileManager() {
+        return tileManager;
+    }
+
+    public CollisionChecker getCollisionChecker() {
+        return collisionChecker;
     }
 }
