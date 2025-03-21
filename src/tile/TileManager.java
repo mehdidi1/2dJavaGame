@@ -50,7 +50,7 @@ public class TileManager {
      */
     public void loadMap() {
         try {
-            InputStream is = getClass().getResourceAsStream("/maps/baseMap.csv"); // Load CSV file
+            InputStream is = getClass().getResourceAsStream("/maps/biggerBaseMap.csv"); // Load CSV file
             assert is != null;
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
@@ -89,7 +89,7 @@ public class TileManager {
         int worldRow = 0;
 
 
-        while (worldCol < GameConstants.MAX_SCREEN_COL && worldRow < GameConstants.MAX_SCREEN_ROW) {
+        while (worldCol < GameConstants.MAX_WORLD_COL && worldRow < GameConstants.MAX_WORLD_ROW) {
             int tileNum = mapTileNum[worldCol][worldRow]; // Get the tile number from the map array
 
             int worldX = worldCol * GameConstants.TILE_SIZE;
@@ -101,7 +101,7 @@ public class TileManager {
 
             worldCol++;
 
-            if (worldCol == GameConstants.MAX_SCREEN_COL) {
+            if (worldCol == GameConstants.MAX_WORLD_COL) {
                 worldCol = 0;
                 worldRow++;
             }
