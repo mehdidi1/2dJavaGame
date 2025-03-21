@@ -116,4 +116,7 @@ public class GamePanel extends JPanel implements Runnable {
         return GameConstants.FPS;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
 }

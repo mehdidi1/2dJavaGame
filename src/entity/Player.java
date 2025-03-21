@@ -16,14 +16,17 @@ public class Player extends Entity {
     private static final Logger logger = LogManager.getLogger(Player.class);
 
     InputHandler inputHandler;
+    private final int screenX, screenY;
 
     public Player(GamePanel gamePanel, InputHandler inputHandler, int x, int y) {
         super(gamePanel);
         this.inputHandler = inputHandler;
-        setX(x);
-        setY(y);
+        setWorldX(x);
+        setWorldY(y);
         setSpeed(GameConstants.PLAYER_SPEED);
         getPlayerImage();
+        screenX = GameConstants.SCREEN_WIDTH / 2 - GameConstants.TILE_SIZE / 2;
+        screenY = GameConstants.SCREEN_HEIGHT / 2 - GameConstants.TILE_SIZE / 2;
     }
 
     public void getPlayerImage() {
@@ -47,17 +50,17 @@ public class Player extends Entity {
 
     private void updateMovement() {
         if (inputHandler.isDownPressed()) {
-            setY(getY() + GameConstants.PLAYER_SPEED);
+            setWorldY(getWorldY() + GameConstants.PLAYER_SPEED);
             setWalking(true);
         } else if (inputHandler.isUpPressed()) {
-            setY(getY() - GameConstants.PLAYER_SPEED);
+            setWorldY(getWorldY() - GameConstants.PLAYER_SPEED);
             setWalking(true);
         } else if (inputHandler.isLeftPressed()) {
-            setX(getX() - GameConstants.PLAYER_SPEED);
+            setWorldX(getWorldX() - GameConstants.PLAYER_SPEED);
             setWalking(true);
             setFacingLeft(true);
         } else if (inputHandler.isRightPressed()) {
-            setX(getX() + GameConstants.PLAYER_SPEED);
+            setWorldX(getWorldX() + GameConstants.PLAYER_SPEED);
             setWalking(true);
             setFacingLeft(false);
         } else {
@@ -71,6 +74,15 @@ public class Player extends Entity {
         if (isFacingLeft()) {
             img = flipImage(img);
         }
-        g2d.drawImage(img, getX(), getY(), getGamePanel().getTileSize(), getGamePanel().getTileSize(), null);
+        g2d.drawImage(img, this.screenX, this.screenY, getGamePanel().getTileSize(), getGamePanel().getTileSize(), null);
+
+    }
+
+    public int getScreenX() {
+        return screenX;
+    }
+
+    public int getScreenY() {
+        return screenY;
     }
 }
