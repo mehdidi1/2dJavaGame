@@ -93,28 +93,32 @@ public class TileManager {
      * @param g2
      */
     public void draw(Graphics2D g2) {
-        int worldCol = 0;
-        int worldRow = 0;
+        int playerWorldX = gamePanel.getPlayer().getWorldX();
+        int playerWorldY = gamePanel.getPlayer().getWorldY();
+        int playerScreenX = gamePanel.getPlayer().getScreenX();
+        int playerScreenY = gamePanel.getPlayer().getScreenY();
 
+        int offsetX = Math.min(Math.max(playerWorldX - playerScreenX, 0), GameConstants.LEVEL_WIDTH - GameConstants.SCREEN_WIDTH);
+        int offsetY = Math.min(Math.max(playerWorldY - playerScreenY, 0), GameConstants.LEVEL_HEIGHT - GameConstants.SCREEN_HEIGHT);
 
-        while (worldCol < GameConstants.MAX_WORLD_COL && worldRow < GameConstants.MAX_WORLD_ROW) {
-            int tileNum = mapTileNum[worldCol][worldRow]; // Get the tile number from the map array
+        for (int worldRow = 0; worldRow < GameConstants.MAX_WORLD_ROW; worldRow++) {
+            for (int worldCol = 0; worldCol < GameConstants.MAX_WORLD_COL; worldCol++) {
+                int tileNum = mapTileNum[worldCol][worldRow]; // Get the tile number from the map array
 
-            int worldX = worldCol * GameConstants.TILE_SIZE;
-            int worldY = worldRow * GameConstants.TILE_SIZE;
-            int screenX = worldX - gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getScreenX();
-            int screenY = worldY - gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getScreenY();
+                int worldX = worldCol * GameConstants.TILE_SIZE;
+                int worldY = worldRow * GameConstants.TILE_SIZE;
+                int screenX = worldX - offsetX;
+                int screenY = worldY - offsetY;
 
-            g2.drawImage(tiles[tileNum].image, screenX, screenY, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null); // Draw the tile
-
-            worldCol++;
-
-            if (worldCol == GameConstants.MAX_WORLD_COL) {
-                worldCol = 0;
-                worldRow++;
+                // Only draw tiles that are within the screen bounds
+                if (screenX + GameConstants.TILE_SIZE > 0 && screenX < GameConstants.SCREEN_WIDTH &&
+                    screenY + GameConstants.TILE_SIZE > 0 && screenY < GameConstants.SCREEN_HEIGHT) {
+                    g2.drawImage(tiles[tileNum].image, screenX, screenY, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null); // Draw the tile
+                }
             }
         }
     }
+
 
     public int[][] getMapTileNum() {
         return mapTileNum;
