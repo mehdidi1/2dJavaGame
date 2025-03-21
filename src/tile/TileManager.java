@@ -28,35 +28,29 @@ public class TileManager {
         loadMap();
     }
 
+    /**
+     * loads the images of each tile
+     */
     public void loadTileImages() {
-        String[] tileNames = {
-                "downLeftWall", "downRightWall",
-                "downWall1", "downWall2", "downWall3", "downWall4",
-                "leftWall1", "leftWall2", "leftWall3",
-                "rightWall1", "rightWall2", "rightWall3",
-                "upLeftWall", "upRightWall",
-                "upWall1", "upWall2", "upWall3", "upWall4",
-                "padding11", "padding12", "padding13", "padding14",
-                "padding21", "padding22", "padding23", "padding24",
-                "padding31", "padding32", "padding33", "padding34"
-        };
+        int tileNum = 100;
+        tiles = new Tile[tileNum];
 
-        tiles = new Tile[tileNames.length];
-
-        for (int i = 0; i < tileNames.length; i++) {
+        for (int i = 0; i < tileNum; i++) {
             try {
                 tiles[i] = new Tile();
-                tiles[i].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/tiles/" + tileNames[i] + ".png")));
+                tiles[i].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/tiles/tile_" + i + ".png")));
             } catch (Exception e) {
-                logger.error("Failed to load tile: {}", tileNames[i], e);
+                logger.error("Failed to load tile: {}", i, e);
             }
         }
     }
 
-
+    /**
+     *Loads csv map file created using Tiled into mapTileNum
+     */
     public void loadMap() {
         try {
-            InputStream is = getClass().getResourceAsStream("/maps/baseMap.txt");
+            InputStream is = getClass().getResourceAsStream("/maps/baseMap.csv"); // Load CSV file
             assert is != null;
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
@@ -68,11 +62,12 @@ public class TileManager {
 
                 if (line.isEmpty()) continue; // Skip empty lines
 
-                String[] numbers = line.split("\\s+"); // Splits by any spaces
+                // Split by commas instead of spaces
+                String[] numbers = line.split(",");
 
                 for (int col = 0; col < numbers.length && col < GameConstants.MAX_SCREEN_COL; col++) {
-                    if (!numbers[col].isEmpty()) { // Prevent parsing empty strings
-                        mapTileNum[col][row] = Integer.parseInt(numbers[col]);
+                    if (!numbers[col].isEmpty()) { // Prevent parsing empty values
+                        mapTileNum[col][row] = Integer.parseInt(numbers[col].trim());
                     }
                 }
                 row++;
@@ -85,6 +80,10 @@ public class TileManager {
     }
 
 
+    /**
+     * draws the tiles of the map on the screen
+     * @param g2
+     */
     public void draw(Graphics2D g2) {
         int col = 0;
         int row = 0;
