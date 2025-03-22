@@ -14,6 +14,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 
+/**
+ * Class that manages displaying the current level map using tiles
+ */
 public class TileManager {
 
     private static final Logger logger = LogManager.getLogger(TileManager.class);

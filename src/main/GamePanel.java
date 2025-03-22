@@ -24,6 +24,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     //Player
     Player player = new Player(this, inputHandler, 500, 500);
+    private int mouseX, mouseY;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));

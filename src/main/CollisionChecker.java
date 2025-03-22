@@ -2,6 +2,9 @@ package main;
 
 import entity.Entity;
 
+/**
+ * Class to check collision between entities
+ */
 public class CollisionChecker {
     GamePanel gamePanel;
 
@@ -9,6 +12,10 @@ public class CollisionChecker {
         this.gamePanel = gamePanel;
     }
 
+    /**
+     * Checks collision between moving entities and tiles
+     * @param entity
+     */
     public void checkTileCollision(Entity entity) {
         int entityLeftWorldX = entity.getWorldX() + entity.getCollider().x;
         int entityRightWorldX = entity.getWorldX() + entity.getCollider().x + entity.getCollider().width;

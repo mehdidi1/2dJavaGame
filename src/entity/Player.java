@@ -11,6 +11,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 
+/**
+ * Class representing the player
+ */
 public class Player extends Entity {
 
     private static final Logger logger = LogManager.getLogger(Player.class);

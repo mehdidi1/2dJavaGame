@@ -47,7 +47,7 @@ public abstract class Entity {
 
 
     /*
-    Updates the frame to be displayed at a rate that is independent of current fps
+    Updates the frame of the current animation to be displayed at a rate that is independent of current fps
      */
     private int spriteCounter = 0;
 
@@ -59,6 +59,9 @@ public abstract class Entity {
         }
     }
 
+    /**
+     * Update the current animation
+     */
     protected void updateAnimation() {
         if (isWalking) {
             currentAnimationFrames = walkingFrames;
@@ -67,6 +70,11 @@ public abstract class Entity {
         }
     }
 
+    /**
+     * Internal function to flip the images of the animations depending on if the character is facing left or right
+     * @param img
+     * @return
+     */
     protected BufferedImage flipImage(BufferedImage img) {
         int width = img.getWidth();
         int height = img.getHeight();

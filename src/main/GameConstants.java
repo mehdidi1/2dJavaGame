@@ -1,5 +1,8 @@
 package main;
 
+/**
+ * Global game constants
+ */
 public final class GameConstants {
     private GameConstants() {} // Prevent instantiation
 
