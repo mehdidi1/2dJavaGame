@@ -1,6 +1,7 @@
 package main;
 
 import entity.Player;
+import object.SuperObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tile.TileManager;
@@ -8,6 +9,8 @@ import tile.TileManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Class the game window.
@@ -21,6 +24,8 @@ public class GamePanel extends JPanel implements Runnable {
     InputHandler inputHandler = new InputHandler();
     TileManager tileManager = new TileManager(this);
     CollisionChecker collisionChecker = new CollisionChecker(this);
+    AssetSetter assetSetter = new AssetSetter(this);
+    public List<SuperObject> objects = new LinkedList<SuperObject>();
 
     //Player
     Player player = new Player(this, inputHandler, 500, 500);
@@ -32,6 +37,13 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(inputHandler);
         this.setFocusable(true);
+    }
+
+    /**
+     * put here any data related to current level (objects mobs ...)
+     */
+    public void setupGame(){
+        assetSetter.setObjects();
     }
 
     public void startGameThread() {
@@ -104,7 +116,13 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         try {
+            //Tile
             tileManager.draw(g2d);
+            //Objects
+            for (SuperObject object : objects) {
+                object.draw(g2d);
+            }
+            //player
             player.draw(g2d);
         } finally {
             g2d.dispose();

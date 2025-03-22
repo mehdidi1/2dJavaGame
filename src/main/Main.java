@@ -25,6 +25,7 @@ public class Main {
         window.add(gamePanel);
         window.pack();
 
+        gamePanel.setupGame();
         gamePanel.startGameThread();
         gamePanel.requestFocusInWindow(); // Ensure GamePanel receives keyboard events
         logger.info("Game started");
