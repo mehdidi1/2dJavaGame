@@ -40,4 +40,16 @@ public abstract class SuperObject {
             g2.drawImage(image, screenX, screenY, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
         }
     }
+
+    private int calculateScreenY(GamePanel gamePanel) {
+        int screenY = worldY - gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getScreenY();
+        return screenY;
+    }
+
+    private boolean isVisibleOnScreen(GamePanel gamePanel) {
+        return worldX + gamePanel.getTileSize() > gamePanel.getPlayer().getWorldX() - gamePanel.getPlayer().getScreenX() &&
+               worldX - gamePanel.getTileSize() < gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getScreenX() &&
+               worldY + gamePanel.getTileSize() > gamePanel.getPlayer().getWorldY() - gamePanel.getPlayer().getScreenY() &&
+               worldY - gamePanel.getTileSize() < gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getScreenY();
+    }
 }

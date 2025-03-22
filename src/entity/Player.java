@@ -102,26 +102,38 @@ public class Player extends Entity {
             img = flipImage(img);
         }
 
-        int screenX = this.screenX;
-        int screenY = this.screenY;
+        int screenX = calculateScreenX();
+        int screenY = calculateScreenY();
 
-        // Adjust screen position if near the map boundaries
+        g2d.drawImage(img, screenX, screenY, getGamePanel().getTileSize(), getGamePanel().getTileSize(), null);
+    }
+
+    private int calculateScreenX() {
+        int screenX = this.screenX;
+
         if (getWorldX() < this.screenX) {
             screenX = getWorldX();
-        }
-        if (getWorldY() < this.screenY) {
-            screenY = getWorldY();
         }
         int rightOffset = GameConstants.LEVEL_WIDTH - getWorldX();
         if (rightOffset < GameConstants.SCREEN_WIDTH - this.screenX) {
             screenX = GameConstants.SCREEN_WIDTH - rightOffset;
+        }
+
+        return screenX;
+    }
+
+    private int calculateScreenY() {
+        int screenY = this.screenY;
+
+        if (getWorldY() < this.screenY) {
+            screenY = getWorldY();
         }
         int bottomOffset = GameConstants.LEVEL_HEIGHT - getWorldY();
         if (bottomOffset < GameConstants.SCREEN_HEIGHT - this.screenY) {
             screenY = GameConstants.SCREEN_HEIGHT - bottomOffset;
         }
 
-        g2d.drawImage(img, screenX, screenY, getGamePanel().getTileSize(), getGamePanel().getTileSize(), null);
+        return screenY;
     }
 
     public int getScreenX() {

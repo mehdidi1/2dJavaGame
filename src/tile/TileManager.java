@@ -1,5 +1,6 @@
 package tile;
 
+import main.DrawingUtils;
 import main.GameConstants;
 import main.GamePanel;
 import org.apache.logging.log4j.LogManager;
@@ -59,11 +60,8 @@ public class TileManager {
      * Loads csv map file created using Tiled into mapTileNum
      */
     public void loadMap() {
-        try {
-            InputStream is = getClass().getResourceAsStream("/maps/biggerBaseMap.csv"); // Load CSV file
-            assert is != null;
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-
+        try (InputStream is = getClass().getResourceAsStream("/maps/biggerBaseMap.csv");
+             BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
             int row = 0;
             String line;
 
@@ -82,13 +80,10 @@ public class TileManager {
                 }
                 row++;
             }
-
-            br.close();
         } catch (Exception e) {
             logger.error("Error loading map", e);
         }
     }
-
 
     /**
      * draws the tiles of the map seen by the camera on the screen
@@ -96,32 +91,22 @@ public class TileManager {
      * @param g2
      */
     public void draw(Graphics2D g2) {
-        int playerWorldX = gamePanel.getPlayer().getWorldX();
-        int playerWorldY = gamePanel.getPlayer().getWorldY();
-        int playerScreenX = gamePanel.getPlayer().getScreenX();
-        int playerScreenY = gamePanel.getPlayer().getScreenY();
-
-        int offsetX = Math.min(Math.max(playerWorldX - playerScreenX, 0), GameConstants.LEVEL_WIDTH - GameConstants.SCREEN_WIDTH);
-        int offsetY = Math.min(Math.max(playerWorldY - playerScreenY, 0), GameConstants.LEVEL_HEIGHT - GameConstants.SCREEN_HEIGHT);
-
         for (int worldRow = 0; worldRow < GameConstants.MAX_WORLD_ROW; worldRow++) {
             for (int worldCol = 0; worldCol < GameConstants.MAX_WORLD_COL; worldCol++) {
                 int tileNum = mapTileNum[worldCol][worldRow]; // Get the tile number from the map array
 
                 int worldX = worldCol * GameConstants.TILE_SIZE;
                 int worldY = worldRow * GameConstants.TILE_SIZE;
-                int screenX = worldX - offsetX;
-                int screenY = worldY - offsetY;
+                int screenX = DrawingUtils.calculateScreenX(worldX, gamePanel);
+                int screenY = DrawingUtils.calculateScreenY(worldY, gamePanel);
 
                 // Only draw tiles that are within the screen bounds
-                if (screenX + GameConstants.TILE_SIZE > 0 && screenX < GameConstants.SCREEN_WIDTH &&
-                    screenY + GameConstants.TILE_SIZE > 0 && screenY < GameConstants.SCREEN_HEIGHT) {
+                if (DrawingUtils.isWithinScreenBounds(screenX, screenY)) {
                     g2.drawImage(tiles[tileNum].image, screenX, screenY, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null); // Draw the tile
                 }
             }
         }
     }
-
 
     public int[][] getMapTileNum() {
         return mapTileNum;

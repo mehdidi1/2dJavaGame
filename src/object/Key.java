@@ -24,7 +24,7 @@ public class Key extends SuperObject {
         try {
             super.image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/objects/keys_1_1.png")));
         } catch (IOException e) {
-            logger.error(e);
+            logger.error("Failed to load key image: {}", e.getMessage());
         }
     }
 

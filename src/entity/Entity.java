@@ -23,16 +23,21 @@ public abstract class Entity {
     private Direction direction = Direction.LEFT;
 
     //animation
-    public BufferedImage[] idleFrames = new BufferedImage[8];
-    public BufferedImage[] walkingFrames = new BufferedImage[8];
+    private static final int SPRITE_FRAME_COUNT = 8;
+    private static final int SPRITE_UPDATE_RATE = 12;
+    public BufferedImage[] idleFrames;
+    public BufferedImage[] walkingFrames;
     private boolean isWalking = false;
-    public BufferedImage[] currentAnimationFrames = idleFrames;
+    public BufferedImage[] currentAnimationFrames;
     private int currentAnimationFrameIndex = 0;
     private boolean facingLeft = false;
 
 
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
+        idleFrames = new BufferedImage[SPRITE_FRAME_COUNT];
+        walkingFrames = new BufferedImage[SPRITE_FRAME_COUNT];
+        currentAnimationFrames = idleFrames;
     }
 
     /**
@@ -53,9 +58,9 @@ public abstract class Entity {
 
     protected void updateFrame() {
         spriteCounter++;
-        if (spriteCounter >= getGamePanel().getFps() / 12) {
+        if (spriteCounter >= getGamePanel().getFps() / SPRITE_UPDATE_RATE) {
             spriteCounter = 0;
-            setCurrentAnimationFrameIndex((getCurrentAnimationFrameIndex() + 1) % 8);
+            setCurrentAnimationFrameIndex((getCurrentAnimationFrameIndex() + 1) % SPRITE_FRAME_COUNT);
         }
     }
 
