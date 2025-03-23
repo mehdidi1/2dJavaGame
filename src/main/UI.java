@@ -47,6 +47,8 @@ public class UI {
         int startX = (gamePanel.getWidth() / 2) - (totalWidth / 2);
         int startY = gamePanel.getHeight() - frameSize - 20; // Position the frames at the bottom with some padding
 
+        int selectedItemIndex = gamePanel.getInventory().getSelectedSlot(); // Get the selected item index
+
         // Draw the 3 inventory frames
         for (int i = 0; i < 3; i++) {
             int x = startX + (i * (frameSize + framePadding));
@@ -63,6 +65,14 @@ public class UI {
             // Draw border
             g2d.setColor(Color.BLACK);
             g2d.drawRoundRect(x, startY, frameSize, frameSize, 10, 10);
+
+            // Highlight the selected item
+            if (i == selectedItemIndex) {
+                g2d.setColor(Color.YELLOW);
+                g2d.setStroke(new BasicStroke(3));
+                g2d.drawRoundRect(x - 2, startY - 2, frameSize + 4, frameSize + 4, 10, 10);
+                g2d.setStroke(new BasicStroke(1)); // Reset stroke
+            }
 
             // Draw the item icon if available
             BufferedImage itemIcon = gamePanel.getInventory().getItemIcon(i);

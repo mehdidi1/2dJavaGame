@@ -28,7 +28,6 @@ public class GamePanel extends JPanel implements Runnable {
     CollisionChecker collisionChecker = new CollisionChecker(this);
     AssetSetter assetSetter = new AssetSetter(this);
     public List<SuperObject> objects = new ArrayList<>();
-    Inventory inventory = new Inventory(this);
     UI ui = new UI(this);
 
     //Player
@@ -162,6 +161,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public Inventory getInventory() {
-        return inventory;
+        return player.getInventory();
     }
+
 }

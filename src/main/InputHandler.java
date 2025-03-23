@@ -17,7 +17,7 @@ public class InputHandler implements KeyListener {
 
     private static final Logger logger = LogManager.getLogger(InputHandler.class);
 
-    private boolean upPressed, downPressed, rightPressed, leftPressed;
+    private boolean upPressed, downPressed, rightPressed, leftPressed,item1Pressed, item2Pressed, item3Pressed;
 
 
     @Override
@@ -42,6 +42,15 @@ public class InputHandler implements KeyListener {
         if (keyCode == KeyEvent.VK_D) {
             rightPressed = true;
         }
+        if (keyCode == KeyEvent.VK_1) {
+            item1Pressed = true;
+        }
+        if (keyCode == KeyEvent.VK_2) {
+            item2Pressed = true;
+        }
+        if (keyCode == KeyEvent.VK_3) {
+            item3Pressed = true;
+        }
     }
 
     @Override
@@ -59,6 +68,16 @@ public class InputHandler implements KeyListener {
         }
         if (keyCode == KeyEvent.VK_D) {
             rightPressed = false;
+        }
+
+        if (keyCode == KeyEvent.VK_1) {
+            item1Pressed = false;
+        }
+        if (keyCode == KeyEvent.VK_2) {
+            item2Pressed = false;
+        }
+        if (keyCode == KeyEvent.VK_3) {
+            item3Pressed = false;
         }
 
     }
@@ -82,5 +101,15 @@ public class InputHandler implements KeyListener {
         return leftPressed;
     }
 
+    public boolean isItem1Pressed() {
+        return item1Pressed;
+    }
 
+    public boolean isItem2Pressed() {
+        return item2Pressed;
+    }
+
+    public boolean isItem3Pressed() {
+        return item3Pressed;
+    }
 }

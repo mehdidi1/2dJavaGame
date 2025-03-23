@@ -4,6 +4,7 @@ import main.DrawingUtils;
 import main.GameConstants;
 import main.GamePanel;
 import main.InputHandler;
+import object.SuperObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,10 +22,11 @@ public class Player extends Entity {
 
     InputHandler inputHandler;
     private final int screenX, screenY;
+    Inventory inventory = new Inventory(getGamePanel());
 
     //PLAYER ATTRIBUTES
     private int maxHealth = 3;
-    private int health = 2;
+    private int health = 3;
     private int shields = 3;
     private int maxShields = 3;
 
@@ -59,6 +61,7 @@ public class Player extends Entity {
     @Override
     public void update() {
         updateMovement();
+        updateSelectedItem();
         updateAnimation();
         updateFrame();
     }
@@ -92,7 +95,7 @@ public class Player extends Entity {
             int objIndex = getGamePanel().getCollisionChecker().checkObject(this,true);
             if (objIndex != -1) {
                 System.out.println("deleting object" + objIndex);
-                getGamePanel().getInventory().pickUp(objIndex);
+                inventory.pickUp(objIndex);
             }
 
 
@@ -126,6 +129,18 @@ public class Player extends Entity {
         int screenY = calculateScreenY();
 
         g2d.drawImage(img, screenX, screenY, null);
+    }
+
+    private void updateSelectedItem(){
+        if (inputHandler.isItem1Pressed()) {
+            inventory.setSelectedSlot(0);
+        }
+        if (inputHandler.isItem2Pressed()) {
+            inventory.setSelectedSlot(1);
+        }
+        if (inputHandler.isItem3Pressed()) {
+            inventory.setSelectedSlot(2);
+        }
     }
 
     private int calculateScreenX() {
@@ -186,5 +201,9 @@ public class Player extends Entity {
 
     public int getMaxShields() {
         return maxShields;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 }
