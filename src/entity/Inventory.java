@@ -12,6 +12,7 @@ public class Inventory {
     private int inventorySize;
     private SuperObject[] inventoryTab;
     private int selectedSlot;
+    private int nbCoins = 0;
 
     public Inventory(GamePanel gamePanel) {
         this.gamePanel = gamePanel;

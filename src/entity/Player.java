@@ -22,6 +22,12 @@ public class Player extends Entity {
     InputHandler inputHandler;
     private final int screenX, screenY;
 
+    //PLAYER ATTRIBUTES
+    private int maxHealth = 3;
+    private int health = 2;
+    private int shields = 3;
+    private int maxShields = 3;
+
     public Player(GamePanel gamePanel, InputHandler inputHandler, int x, int y) {
         super(gamePanel);
         isPlayer = true;
@@ -156,5 +162,29 @@ public class Player extends Entity {
 
     public int getScreenY() {
         return screenY;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getShields() {
+        return shields;
+    }
+
+    public int getMaxShields() {
+        return maxShields;
     }
 }
