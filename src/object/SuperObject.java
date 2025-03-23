@@ -12,9 +12,11 @@ import java.awt.image.BufferedImage;
 public abstract class SuperObject {
     protected BufferedImage image;
     protected String name;
-    protected boolean collision = false;
     protected int worldX, worldY;
     protected GamePanel gamePanel;
+    protected Rectangle collider = new Rectangle(0,0,48,48);
+    protected boolean solid = false;
+    protected boolean collisionOn = false;
 
     public SuperObject(int x, int y, GamePanel gamePanel) {
         worldX = x;
@@ -42,8 +44,7 @@ public abstract class SuperObject {
     }
 
     private int calculateScreenY(GamePanel gamePanel) {
-        int screenY = worldY - gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getScreenY();
-        return screenY;
+        return worldY - gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getScreenY();
     }
 
     private boolean isVisibleOnScreen(GamePanel gamePanel) {
@@ -51,5 +52,21 @@ public abstract class SuperObject {
                worldX - gamePanel.getTileSize() < gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getScreenX() &&
                worldY + gamePanel.getTileSize() > gamePanel.getPlayer().getWorldY() - gamePanel.getPlayer().getScreenY() &&
                worldY - gamePanel.getTileSize() < gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getScreenY();
+    }
+
+    public int getWorldY() {
+        return worldY;
+    }
+
+    public int getWorldX() {
+        return worldX;
+    }
+
+    public Rectangle getCollider() {
+        return collider;
+    }
+
+    public void setCollisionOn(boolean collisionOn) {
+        this.collisionOn = collisionOn;
     }
 }

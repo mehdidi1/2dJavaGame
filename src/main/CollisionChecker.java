@@ -1,11 +1,21 @@
 package main;
 
 import entity.Entity;
+import entity.Player;
+import object.SuperObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.awt.*;
+import java.util.Iterator;
 
 /**
  * Class to check collision between entities
  */
 public class CollisionChecker {
+
+    private static final Logger logger = LogManager.getLogger(CollisionChecker.class);
+
     GamePanel gamePanel;
 
     public CollisionChecker(GamePanel gamePanel) {
@@ -14,6 +24,7 @@ public class CollisionChecker {
 
     /**
      * Checks collision between moving entities and tiles
+     *
      * @param entity
      */
     public void checkTileCollision(Entity entity) {
@@ -63,5 +74,84 @@ public class CollisionChecker {
                 }
                 break;
         }
+    }
+
+    /**
+     * Checks collision between entity and object
+     *
+     * @param entity
+     * @param player
+     * @return
+     */
+    public int checkObject(Entity entity, boolean player) {
+        int index = -1; // Default index indicating no collision
+
+        Iterator<SuperObject> iterator = gamePanel.getObjects().iterator();
+        int i = 0;
+
+        while (iterator.hasNext()) {
+            SuperObject object = iterator.next();
+            if (object != null) {
+                // Get entity's solid area position
+                Rectangle entitySolidArea = new Rectangle(entity.getWorldX() + entity.getCollider().x,
+                        entity.getWorldY() + entity.getCollider().y,
+                        entity.getCollider().width,
+                        entity.getCollider().height);
+
+                // Get the object's solid area position
+                Rectangle objectSolidArea = new Rectangle(object.getWorldX() + object.getCollider().x,
+                        object.getWorldY() + object.getCollider().y,
+                        object.getCollider().width,
+                        object.getCollider().height);
+
+                switch (entity.getDirection()) {
+                    case UP:
+                        entitySolidArea.y -= entity.getSpeed();
+                        if (entitySolidArea.intersects(objectSolidArea)) {
+                            if (player) {
+
+                                logger.trace("up collision with object");
+                                index = i; // Collision detected, store the index
+                            }
+
+                        }
+                        break;
+                    case DOWN:
+                        entitySolidArea.y += entity.getSpeed();
+                        if (entitySolidArea.intersects(objectSolidArea)) {
+                            if (player) {
+
+                                logger.trace("down collision with object");
+                                index = i; // Collision detected, store the index
+                            }
+                        }
+                        break;
+                    case LEFT:
+                        entitySolidArea.x -= entity.getSpeed();
+                        if (entitySolidArea.intersects(objectSolidArea)) {
+                            if (player) {
+
+                                logger.trace("left collision with object");
+                                index = i; // Collision detected, store the index
+                            }
+                        }
+                        break;
+                    case RIGHT:
+                        entitySolidArea.x += entity.getSpeed();
+                        if (entitySolidArea.intersects(objectSolidArea)) {
+                            if (player) {
+
+                                logger.trace("right collision with object");
+                                index = i; // Collision detected, store the index
+                            }
+                        }
+                        break;
+                }
+
+            }
+            i++;
+        }
+
+        return index; // Return the index of the collided object, or 999 if no collision
     }
 }

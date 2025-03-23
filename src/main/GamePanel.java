@@ -1,5 +1,6 @@
 package main;
 
+import entity.Inventory;
 import entity.Player;
 import object.SuperObject;
 import org.apache.logging.log4j.LogManager;
@@ -9,6 +10,7 @@ import tile.TileManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,7 +27,8 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tileManager = new TileManager(this);
     CollisionChecker collisionChecker = new CollisionChecker(this);
     AssetSetter assetSetter = new AssetSetter(this);
-    public List<SuperObject> objects = new LinkedList<SuperObject>();
+    public List<SuperObject> objects = new ArrayList<>();
+    Inventory inventory = new Inventory(this);
 
     //Player
     Player player = new Player(this, inputHandler, 500, 500);
@@ -147,5 +150,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     public CollisionChecker getCollisionChecker() {
         return collisionChecker;
+    }
+
+    public List<SuperObject> getObjects() {
+        return objects;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 }

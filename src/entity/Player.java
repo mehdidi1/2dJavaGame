@@ -23,6 +23,7 @@ public class Player extends Entity {
 
     public Player(GamePanel gamePanel, InputHandler inputHandler, int x, int y) {
         super(gamePanel);
+        isPlayer = true;
         this.inputHandler = inputHandler;
         setWorldX(x);
         setWorldY(y);
@@ -72,9 +73,18 @@ public class Player extends Entity {
         }
 
         if (isWalking()) {
-            //Check tile collision
+
+            //CHECK TILE COLLISION
             setColliding(false);
             getGamePanel().getCollisionChecker().checkTileCollision(this);
+
+            //CHECK OBJECT COLLISION
+            int objIndex = getGamePanel().getCollisionChecker().checkObject(this,true);
+            if (objIndex != -1) {
+                System.out.println("deleting object" + objIndex);
+                getGamePanel().getInventory().pickUp(objIndex);
+            }
+
 
             if (!colliding) {
                 switch (getDirection()) {

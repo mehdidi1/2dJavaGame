@@ -30,8 +30,11 @@ public abstract class Entity {
     private boolean isWalking = false;
     public BufferedImage[] currentAnimationFrames;
     private int currentAnimationFrameIndex = 0;
-    private boolean facingLeft = false;
 
+
+    //Verifiers
+    private boolean facingLeft = false;
+    protected boolean isPlayer = false;
 
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -173,6 +176,14 @@ public abstract class Entity {
 
     public boolean isWalking() {
         return isWalking;
+    }
+
+    public boolean isColliding() {
+        return colliding;
+    }
+
+    public boolean isPlayer() {
+        return isPlayer;
     }
 }
 
