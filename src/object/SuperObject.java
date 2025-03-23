@@ -14,7 +14,7 @@ public abstract class SuperObject {
     protected String name;
     protected int worldX, worldY;
     protected GamePanel gamePanel;
-    protected Rectangle collider = new Rectangle(0,0,48,48);
+    protected Rectangle collider = new Rectangle(0, 0, 48, 48);
     protected boolean solid = false;
     protected boolean collisionOn = false;
 
@@ -39,7 +39,7 @@ public abstract class SuperObject {
         // Only draw the key if it is within the screen bounds
         if (screenX + GameConstants.TILE_SIZE > 0 && screenX < GameConstants.SCREEN_WIDTH &&
                 screenY + GameConstants.TILE_SIZE > 0 && screenY < GameConstants.SCREEN_HEIGHT) {
-            g2.drawImage(image, screenX, screenY, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+            g2.drawImage(image, screenX, screenY, null);
         }
     }
 
@@ -49,9 +49,9 @@ public abstract class SuperObject {
 
     private boolean isVisibleOnScreen(GamePanel gamePanel) {
         return worldX + gamePanel.getTileSize() > gamePanel.getPlayer().getWorldX() - gamePanel.getPlayer().getScreenX() &&
-               worldX - gamePanel.getTileSize() < gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getScreenX() &&
-               worldY + gamePanel.getTileSize() > gamePanel.getPlayer().getWorldY() - gamePanel.getPlayer().getScreenY() &&
-               worldY - gamePanel.getTileSize() < gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getScreenY();
+                worldX - gamePanel.getTileSize() < gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getScreenX() &&
+                worldY + gamePanel.getTileSize() > gamePanel.getPlayer().getWorldY() - gamePanel.getPlayer().getScreenY() &&
+                worldY - gamePanel.getTileSize() < gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getScreenY();
     }
 
     public int getWorldY() {

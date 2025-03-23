@@ -1,5 +1,6 @@
 package object;
 
+import main.DrawingUtils;
 import main.GameConstants;
 import main.GamePanel;
 import main.InputHandler;
@@ -20,9 +21,11 @@ public class Key extends SuperObject {
 
     public Key(int x, int y, GamePanel gamePanel) {
         super(x, y, gamePanel);
+        DrawingUtils drawingUtils = new DrawingUtils();
         super.name = "Key";
         try {
             super.image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/objects/keys_1_1.png")));
+            super.image = drawingUtils.scaleImage(super.image,GameConstants.TILE_SIZE,GameConstants.TILE_SIZE);
         } catch (IOException e) {
             logger.error("Failed to load key image: {}", e.getMessage());
         }

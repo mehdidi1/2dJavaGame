@@ -40,6 +40,7 @@ public class TileManager {
      * loads the images of each tile
      */
     public void loadTileImages() {
+        DrawingUtils drawingUtils = new DrawingUtils();
         int tileNum = 100;
         tiles = new Tile[tileNum];
 
@@ -47,6 +48,7 @@ public class TileManager {
             try {
                 tiles[i] = new Tile();
                 tiles[i].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/tiles/tile_" + i + ".png")));
+                tiles[i].image = drawingUtils.scaleImage(tiles[i].image, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
                 if (collidingTiles.contains(i)) {
                     tiles[i].collision = true;
                 }
@@ -102,7 +104,7 @@ public class TileManager {
 
                 // Only draw tiles that are within the screen bounds
                 if (DrawingUtils.isWithinScreenBounds(screenX, screenY)) {
-                    g2.drawImage(tiles[tileNum].image, screenX, screenY, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null); // Draw the tile
+                    g2.drawImage(tiles[tileNum].image, screenX, screenY, null); // Draw the tile
                 }
             }
         }

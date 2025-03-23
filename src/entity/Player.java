@@ -1,5 +1,6 @@
 package entity;
 
+import main.DrawingUtils;
 import main.GameConstants;
 import main.GamePanel;
 import main.InputHandler;
@@ -35,10 +36,13 @@ public class Player extends Entity {
     }
 
     public void getPlayerImage() {
+        DrawingUtils drawingUtils = new DrawingUtils();
         try {
             for (int i = 0; i < 8; i++) {
                 idleFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/idle/frame_" + i + "_delay-0.05s.png")));
+                idleFrames[i] = drawingUtils.scaleImage(idleFrames[i], GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
                 walkingFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/walking/Knight_7-" + (i + 1) + ".png.png")));
+                walkingFrames[i] = drawingUtils.scaleImage(walkingFrames[i], GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
             }
 
         } catch (Exception e) {
@@ -115,7 +119,7 @@ public class Player extends Entity {
         int screenX = calculateScreenX();
         int screenY = calculateScreenY();
 
-        g2d.drawImage(img, screenX, screenY, getGamePanel().getTileSize(), getGamePanel().getTileSize(), null);
+        g2d.drawImage(img, screenX, screenY, null);
     }
 
     private int calculateScreenX() {

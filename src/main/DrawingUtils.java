@@ -1,6 +1,8 @@
 package main;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+
 import main.GameConstants;
 import main.GamePanel;
 
@@ -23,5 +25,14 @@ public class DrawingUtils {
     public static boolean isWithinScreenBounds(int screenX, int screenY) {
         return screenX + GameConstants.TILE_SIZE > 0 && screenX < GameConstants.SCREEN_WIDTH &&
                screenY + GameConstants.TILE_SIZE > 0 && screenY < GameConstants.SCREEN_HEIGHT;
+    }
+
+    public BufferedImage scaleImage(BufferedImage originalImage, int width, int height) {
+        BufferedImage scaledImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = scaledImage.createGraphics();
+        g2d.setComposite(AlphaComposite.Src);
+        g2d.drawImage(originalImage, 0, 0, width, height, null);
+        g2d.dispose();
+        return scaledImage;
     }
 }

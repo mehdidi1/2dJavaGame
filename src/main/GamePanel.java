@@ -29,6 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
     AssetSetter assetSetter = new AssetSetter(this);
     public List<SuperObject> objects = new ArrayList<>();
     Inventory inventory = new Inventory(this);
+    UI ui = new UI(this);
 
     //Player
     Player player = new Player(this, inputHandler, 500, 500);
@@ -127,6 +128,9 @@ public class GamePanel extends JPanel implements Runnable {
             }
             //player
             player.draw(g2d);
+
+            //UI
+            ui.draw(g2d);
         } finally {
             g2d.dispose();
         }
