@@ -69,4 +69,8 @@ public abstract class SuperObject {
     public void setCollisionOn(boolean collisionOn) {
         this.collisionOn = collisionOn;
     }
+
+    public BufferedImage getImage() {
+        return image;
+    }
 }

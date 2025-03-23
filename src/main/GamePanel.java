@@ -131,6 +131,8 @@ public class GamePanel extends JPanel implements Runnable {
 
             //UI
             ui.draw(g2d);
+            ui.drawInventory(g2d);
+
         } finally {
             g2d.dispose();
         }
