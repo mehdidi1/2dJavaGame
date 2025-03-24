@@ -10,7 +10,7 @@ public class Inventory {
 
     GamePanel gamePanel;
     private int inventorySize;
-    private SuperObject[] inventoryTab;
+    private final SuperObject[] inventoryTab;
     private int nbCoins = 0;
     private int selectedSlot = 0;
 
@@ -23,8 +23,11 @@ public class Inventory {
 
     public void pickUp(int index) {
         if (gamePanel.getObjects().get(index) != null) {
-            inventoryTab[selectedSlot] = gamePanel.getObjects().get(index); //Put object in inventory
-            gamePanel.getObjects().remove(index); //remove object from the ground
+            if (inventoryTab[selectedSlot] != null) {
+                dropItem(selectedSlot); // Drop the item in the selected slot
+            }
+            inventoryTab[selectedSlot] = gamePanel.getObjects().get(index); // Put object in inventory
+            gamePanel.getObjects().remove(index); // Remove object from the ground
         }
     }
 
@@ -55,5 +58,13 @@ public class Inventory {
 
     public int getSelectedSlot() {
         return selectedSlot;
+    }
+
+    public void dropItem(int index) {
+        SuperObject item = inventoryTab[index];
+        inventoryTab[index] = null;
+        item.setWorldX(gamePanel.getPlayer().getWorldX());
+        item.setWorldY(gamePanel.getPlayer().getWorldY());
+        gamePanel.getObjects().add(item);
     }
 }

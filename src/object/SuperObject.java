@@ -87,4 +87,12 @@ public abstract class SuperObject {
     public BufferedImage getScaledDownImage() {
         return scaledDownImage;
     }
+
+    public void setWorldY(int worldY) {
+        this.worldY = worldY;
+    }
+
+    public void setWorldX(int worldX) {
+        this.worldX = worldX;
+    }
 }

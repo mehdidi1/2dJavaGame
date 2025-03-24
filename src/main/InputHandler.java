@@ -14,6 +14,7 @@ public class InputHandler implements KeyListener, MouseListener {
     private boolean upPressed, downPressed, rightPressed, leftPressed;
     private boolean item1Pressed, item2Pressed, item3Pressed;
     private boolean attackPressed;
+    private boolean pickUpPressed;
 
     @Override
     public void keyTyped(KeyEvent keyEvent) {
@@ -32,6 +33,7 @@ public class InputHandler implements KeyListener, MouseListener {
         if (keyCode == KeyEvent.VK_1) item1Pressed = true;
         if (keyCode == KeyEvent.VK_2) item2Pressed = true;
         if (keyCode == KeyEvent.VK_3) item3Pressed = true;
+        if (keyCode == KeyEvent.VK_E) pickUpPressed = true;
     }
 
     @Override
@@ -45,6 +47,7 @@ public class InputHandler implements KeyListener, MouseListener {
         if (keyCode == KeyEvent.VK_1) item1Pressed = false;
         if (keyCode == KeyEvent.VK_2) item2Pressed = false;
         if (keyCode == KeyEvent.VK_3) item3Pressed = false;
+        if (keyCode == KeyEvent.VK_E) pickUpPressed = false;
     }
 
     // MouseListener methods
@@ -76,4 +79,9 @@ public class InputHandler implements KeyListener, MouseListener {
     public boolean isItem2Pressed() { return item2Pressed; }
     public boolean isItem3Pressed() { return item3Pressed; }
     public boolean isAttackPressed() { return attackPressed; }
+    public boolean isPickUpPressed() { return pickUpPressed; }
+
+    public void setPickUpPressed(boolean pickUpPressed) {
+        this.pickUpPressed = pickUpPressed;
+    }
 }

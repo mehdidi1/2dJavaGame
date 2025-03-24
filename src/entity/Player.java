@@ -84,18 +84,19 @@ public class Player extends Entity {
             setWalking(false);
         }
 
+        //CHECK OBJECT COLLISION
+        int objIndex = getGamePanel().getCollisionChecker().checkObject(this,true);
+        if (objIndex != -1 && inputHandler.isPickUpPressed()) {
+            System.out.println("deleting object" + objIndex);
+            inventory.pickUp(objIndex);
+            inputHandler.setPickUpPressed(false);
+        }
+
         if (isWalking()) {
 
             //CHECK TILE COLLISION
             setColliding(false);
             getGamePanel().getCollisionChecker().checkTileCollision(this);
-
-            //CHECK OBJECT COLLISION
-            int objIndex = getGamePanel().getCollisionChecker().checkObject(this,true);
-            if (objIndex != -1) {
-                System.out.println("deleting object" + objIndex);
-                inventory.pickUp(objIndex);
-            }
 
 
             if (!colliding) {
