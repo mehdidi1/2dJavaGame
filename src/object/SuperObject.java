@@ -1,5 +1,6 @@
 package object;
 
+import main.DrawingUtils;
 import main.GameConstants;
 import main.GamePanel;
 
@@ -17,7 +18,7 @@ public abstract class SuperObject {
     protected Rectangle collider = new Rectangle(0, 0, 48, 48);
     protected boolean solid = false;
     protected boolean collisionOn = false;
-
+    protected BufferedImage scaledDownImage;
     public SuperObject(int x, int y, GamePanel gamePanel) {
         worldX = x;
         worldY = y;
@@ -72,5 +73,13 @@ public abstract class SuperObject {
 
     public BufferedImage getImage() {
         return image;
+    }
+    protected void setScaledDownImage() {
+        DrawingUtils drawingUtils = new DrawingUtils();
+        scaledDownImage = drawingUtils.scaleImage(image, GameConstants.TILE_SIZE/2, GameConstants.TILE_SIZE/2);
+    }
+
+    public BufferedImage getScaledDownImage() {
+        return scaledDownImage;
     }
 }

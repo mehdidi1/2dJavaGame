@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 
@@ -121,14 +122,53 @@ public class Player extends Entity {
 
     public void draw(Graphics2D g2d) {
         BufferedImage img = currentAnimationFrames[getCurrentAnimationFrameIndex()];
-        if (isFacingLeft()) {
+        boolean facingLeft = isFacingLeft();
+        if (facingLeft) {
             img = flipImage(img);
         }
 
         int screenX = calculateScreenX();
         int screenY = calculateScreenY();
 
+        // Draw the player
         g2d.drawImage(img, screenX, screenY, null);
+
+        // Draw the selected item in the player's hands
+        SuperObject selectedItem = inventory.getInventoryTab()[inventory.getSelectedSlot()];
+        if (selectedItem != null) {
+            BufferedImage selectedItemIcon = selectedItem.getScaledDownImage();
+            if (selectedItemIcon != null) {
+                int itemX = screenX + (img.getWidth() / 2) - (selectedItemIcon.getWidth() / 2) + 10;
+                int itemY = screenY + img.getHeight() - selectedItemIcon.getHeight();
+
+                // Calculate the angle between the player and the mouse cursor
+                Point mousePosition = getGamePanel().getMousePosition();
+                if (mousePosition != null) {
+                    double angle = Math.atan2(mousePosition.y - (screenY + (double) img.getHeight() / 2), mousePosition.x - (screenX + (double) img.getWidth() / 2));
+                    if (Math.abs(angle) > Math.PI / 2) {
+                        // Flip the image horizontally and adjust the angle
+                        selectedItemIcon = flipImage(selectedItemIcon);
+                        angle = -(angle > 0 ? Math.PI - angle : -Math.PI - angle);
+                        itemX = itemX - 20;
+                    }
+                    System.out.println(angle);
+                    drawRotatedImage(g2d, selectedItemIcon, itemX , itemY, angle);
+                } else {
+                    g2d.drawImage(selectedItemIcon, itemX, itemY, null);
+                }
+            }
+        }
+    }
+
+    private void drawRotatedImage(Graphics2D g2d, BufferedImage image, int x, int y, double angle) {
+        AffineTransform backup = g2d.getTransform();
+        AffineTransform transform = new AffineTransform();
+        transform.translate(x + (double) image.getWidth() / 2, y + (double) image.getHeight() / 2);
+        transform.rotate(angle);
+        transform.translate((double) -image.getWidth() / 2, (double) -image.getHeight() / 2);
+        g2d.setTransform(transform);
+        g2d.drawImage(image, 0, 0, null);
+        g2d.setTransform(backup);
     }
 
     private void updateSelectedItem(){
@@ -144,11 +184,8 @@ public class Player extends Entity {
     }
 
     private int calculateScreenX() {
-        int screenX = this.screenX;
 
-        if (getWorldX() < this.screenX) {
-            screenX = getWorldX();
-        }
+        int screenX = Math.min(getWorldX(), this.screenX);
         int rightOffset = GameConstants.LEVEL_WIDTH - getWorldX();
         if (rightOffset < GameConstants.SCREEN_WIDTH - this.screenX) {
             screenX = GameConstants.SCREEN_WIDTH - rightOffset;
@@ -158,11 +195,8 @@ public class Player extends Entity {
     }
 
     private int calculateScreenY() {
-        int screenY = this.screenY;
 
-        if (getWorldY() < this.screenY) {
-            screenY = getWorldY();
-        }
+        int screenY = Math.min(getWorldY(), this.screenY);
         int bottomOffset = GameConstants.LEVEL_HEIGHT - getWorldY();
         if (bottomOffset < GameConstants.SCREEN_HEIGHT - this.screenY) {
             screenY = GameConstants.SCREEN_HEIGHT - bottomOffset;
