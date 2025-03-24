@@ -51,7 +51,6 @@ public class InputHandler implements KeyListener, MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
-            System.out.println("Left mouse button pressed - attacking!");
             attackPressed = true;
         }
     }

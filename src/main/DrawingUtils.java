@@ -27,7 +27,7 @@ public class DrawingUtils {
                screenY + GameConstants.TILE_SIZE > 0 && screenY < GameConstants.SCREEN_HEIGHT;
     }
 
-    public BufferedImage scaleImage(BufferedImage originalImage, int width, int height) {
+    public static BufferedImage scaleImage(BufferedImage originalImage, int width, int height) {
         BufferedImage scaledImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = scaledImage.createGraphics();
         g2d.setComposite(AlphaComposite.Src);

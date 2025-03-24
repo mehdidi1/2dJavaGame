@@ -21,11 +21,10 @@ public class Key extends SuperObject {
 
     public Key(int x, int y, GamePanel gamePanel) {
         super(x, y, gamePanel);
-        DrawingUtils drawingUtils = new DrawingUtils();
         super.name = "Key";
         try {
             super.image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/objects/keys_1_3.png")));
-            super.image = drawingUtils.scaleImage(super.image,GameConstants.TILE_SIZE,GameConstants.TILE_SIZE);
+            super.image = DrawingUtils.scaleImage(super.image,GameConstants.TILE_SIZE,GameConstants.TILE_SIZE);
             super.setScaledDownImage();
         } catch (IOException e) {
             logger.error("Failed to load key image: {}", e.getMessage());

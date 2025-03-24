@@ -15,11 +15,10 @@ public class Gun extends RangedWeapon {
 
     public Gun(int x, int y, GamePanel gamePanel) {
         super(x, y, gamePanel);
-        DrawingUtils drawingUtils = new DrawingUtils();
         super.name = "Gun";
         try {
             super.image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/objects/weapons/gun.png")));
-            super.image = drawingUtils.scaleImage(super.image, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+            super.image = DrawingUtils.scaleImage(super.image, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
             super.setScaledDownImage();
         } catch (IOException e) {
             logger.error("Failed to load gun image: {}", e.getMessage());

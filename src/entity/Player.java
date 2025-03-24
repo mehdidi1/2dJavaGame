@@ -42,14 +42,13 @@ public class Player extends Entity {
         collider = new Rectangle(8, 12, 32, 32); //Collider box settings
     }
 
-    public void getPlayerImage() {
-        DrawingUtils drawingUtils = new DrawingUtils();
+    private void getPlayerImage() {
         try {
             for (int i = 0; i < 8; i++) {
                 idleFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/idle/frame_" + i + "_delay-0.05s.png")));
-                idleFrames[i] = drawingUtils.scaleImage(idleFrames[i], GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+                idleFrames[i] = DrawingUtils.scaleImage(idleFrames[i], GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
                 walkingFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/walking/Knight_7-" + (i + 1) + ".png.png")));
-                walkingFrames[i] = drawingUtils.scaleImage(walkingFrames[i], GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+                walkingFrames[i] = DrawingUtils.scaleImage(walkingFrames[i], GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
             }
 
         } catch (Exception e) {
@@ -121,7 +120,6 @@ public class Player extends Entity {
 
     private void updateAttack(){
         if (inputHandler.isAttackPressed()) {
-            System.out.println("attacking");
             inventory.getSelectedObject().performAttack();
         }
     }

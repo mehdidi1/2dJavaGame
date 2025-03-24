@@ -122,18 +122,17 @@ public class UI {
     }
 
     private void loadImages() {
-        DrawingUtils drawingUtils = new DrawingUtils();
         try {
             heartImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/UI/heart pixel art 254x254.png")));
-            heartImage = drawingUtils.scaleImage(heartImage, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+            heartImage = DrawingUtils.scaleImage(heartImage, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
             emptyHeartImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/UI/emptyHeart.png")));
-            emptyHeartImage = drawingUtils.scaleImage(emptyHeartImage, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+            emptyHeartImage = DrawingUtils.scaleImage(emptyHeartImage, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
             coinImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/objects/coin_1.png")));
-            coinImage = drawingUtils.scaleImage(coinImage, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+            coinImage = DrawingUtils.scaleImage(coinImage, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
             shieldImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/UI/shield.png")));
-            shieldImage = drawingUtils.scaleImage(shieldImage, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+            shieldImage = DrawingUtils.scaleImage(shieldImage, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
             emptyShieldImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/UI/emptyShield.png")));
-            emptyShieldImage = drawingUtils.scaleImage(emptyShieldImage, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+            emptyShieldImage = DrawingUtils.scaleImage(emptyShieldImage, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
         } catch (Exception e) {
             logger.error(e);
         }

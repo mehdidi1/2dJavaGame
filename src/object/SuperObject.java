@@ -81,8 +81,7 @@ public abstract class SuperObject {
         return image;
     }
     protected void setScaledDownImage() {
-        DrawingUtils drawingUtils = new DrawingUtils();
-        scaledDownImage = drawingUtils.scaleImage(image, GameConstants.TILE_SIZE/2, GameConstants.TILE_SIZE/2);
+        scaledDownImage = DrawingUtils.scaleImage(image, GameConstants.TILE_SIZE/2, GameConstants.TILE_SIZE/2);
     }
 
     public BufferedImage getScaledDownImage() {
