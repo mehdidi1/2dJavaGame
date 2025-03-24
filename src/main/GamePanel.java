@@ -1,5 +1,6 @@
 package main;
 
+import entity.Entity;
 import entity.Inventory;
 import entity.Player;
 import object.SuperObject;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 public class GamePanel extends JPanel implements Runnable {
 
+
     private static final Logger logger = LogManager.getLogger(GamePanel.class);
 
     Thread gameThread;  //Thread better for performance
@@ -28,6 +30,7 @@ public class GamePanel extends JPanel implements Runnable {
     CollisionChecker collisionChecker = new CollisionChecker(this);
     AssetSetter assetSetter = new AssetSetter(this);
     public List<SuperObject> objects = new ArrayList<>();
+    public List<Entity> entities = new LinkedList<>();
     UI ui = new UI(this);
 
     //Player
@@ -39,14 +42,16 @@ public class GamePanel extends JPanel implements Runnable {
         this.setBackground(Color.BLUE);
         this.setDoubleBuffered(true);
         this.addKeyListener(inputHandler);
+        this.addMouseListener(inputHandler);
         this.setFocusable(true);
     }
 
     /**
      * put here any data related to current level (objects mobs ...)
      */
-    public void setupGame(){
+    public void setupGame() {
         assetSetter.setObjects();
+        assetSetter.setEntities();
     }
 
     public void startGameThread() {
@@ -112,7 +117,9 @@ public class GamePanel extends JPanel implements Runnable {
      * This function must contain everything that need to be constantly updated inside the game loop
      */
     public void update() {
-        player.update();
+        for (Entity e : entities) {
+            e.update();
+        }
     }
 
     public void paintComponent(Graphics g) {
@@ -125,11 +132,14 @@ public class GamePanel extends JPanel implements Runnable {
             for (SuperObject object : objects) {
                 object.draw(g2d);
             }
-            //player
-            player.draw(g2d);
+            //Entities
+            for (Entity entity : entities) {
+                entity.draw(g2d);
+            }
 
             //UI
             ui.draw(g2d);
+
 
         } finally {
             g2d.dispose();
@@ -164,4 +174,7 @@ public class GamePanel extends JPanel implements Runnable {
         return player.getInventory();
     }
 
+    public List<Entity> getEntities() {
+        return entities;
+    }
 }

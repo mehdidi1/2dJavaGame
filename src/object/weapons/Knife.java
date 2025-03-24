@@ -3,7 +3,6 @@ package object.weapons;
 import main.DrawingUtils;
 import main.GameConstants;
 import main.GamePanel;
-import object.MeleeObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,11 +11,11 @@ import java.io.IOException;
 import java.util.Objects;
 
 
-public class Knife extends MeleeObject {
+public class Knife extends MeleeWeapon {
     private static final Logger logger = LogManager.getLogger(Knife.class);
 
     public Knife(int x, int y, GamePanel gamePanel) {
-        super(x, y, gamePanel);
+        super(x, y, gamePanel,30,1);
         DrawingUtils drawingUtils = new DrawingUtils();
         super.name = "Gun";
         try {

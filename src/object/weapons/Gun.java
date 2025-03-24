@@ -3,9 +3,6 @@ package object.weapons;
 import main.DrawingUtils;
 import main.GameConstants;
 import main.GamePanel;
-import object.Key;
-import object.MeleeObject;
-import object.RangedObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,7 +10,7 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Gun extends RangedObject {
+public class Gun extends RangedWeapon {
     private static final Logger logger = LogManager.getLogger(Gun.class);
 
     public Gun(int x, int y, GamePanel gamePanel) {

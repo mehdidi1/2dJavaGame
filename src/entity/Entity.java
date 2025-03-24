@@ -36,11 +36,13 @@ public abstract class Entity {
     private boolean facingLeft = false;
     protected boolean isPlayer = false;
 
-    public Entity(GamePanel gamePanel) {
+    public Entity(int x,int y,GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         idleFrames = new BufferedImage[SPRITE_FRAME_COUNT];
         walkingFrames = new BufferedImage[SPRITE_FRAME_COUNT];
         currentAnimationFrames = idleFrames;
+        this.worldX = x;
+        this.worldY = y;
     }
 
     /**

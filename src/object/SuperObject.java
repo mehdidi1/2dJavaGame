@@ -44,6 +44,10 @@ public abstract class SuperObject {
         }
     }
 
+    public void performAttack(){
+
+    }
+
     private int calculateScreenY(GamePanel gamePanel) {
         return worldY - gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getScreenY();
     }
@@ -54,6 +58,8 @@ public abstract class SuperObject {
                 worldY + gamePanel.getTileSize() > gamePanel.getPlayer().getWorldY() - gamePanel.getPlayer().getScreenY() &&
                 worldY - gamePanel.getTileSize() < gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getScreenY();
     }
+
+
 
     public int getWorldY() {
         return worldY;

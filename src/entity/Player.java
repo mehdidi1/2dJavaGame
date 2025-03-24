@@ -32,11 +32,9 @@ public class Player extends Entity {
     private int maxShields = 3;
 
     public Player(GamePanel gamePanel, InputHandler inputHandler, int x, int y) {
-        super(gamePanel);
+        super(x,y,gamePanel);
         isPlayer = true;
         this.inputHandler = inputHandler;
-        setWorldX(x);
-        setWorldY(y);
         setSpeed(GameConstants.PLAYER_SPEED);
         getPlayerImage();
         screenX = GameConstants.SCREEN_WIDTH / 2 - GameConstants.TILE_SIZE / 2;
@@ -63,6 +61,7 @@ public class Player extends Entity {
     public void update() {
         updateMovement();
         updateSelectedItem();
+        updateAttack();
         updateAnimation();
         updateFrame();
     }
@@ -120,6 +119,13 @@ public class Player extends Entity {
 
     }
 
+    private void updateAttack(){
+        if (inputHandler.isAttackPressed()) {
+            System.out.println("attacking");
+            inventory.getSelectedObject().performAttack();
+        }
+    }
+
     public void draw(Graphics2D g2d) {
         BufferedImage img = currentAnimationFrames[getCurrentAnimationFrameIndex()];
         boolean facingLeft = isFacingLeft();
@@ -151,7 +157,6 @@ public class Player extends Entity {
                         angle = -(angle > 0 ? Math.PI - angle : -Math.PI - angle);
                         itemX = itemX - 20;
                     }
-                    System.out.println(angle);
                     drawRotatedImage(g2d, selectedItemIcon, itemX , itemY, angle);
                 } else {
                     g2d.drawImage(selectedItemIcon, itemX, itemY, null);
@@ -183,7 +188,7 @@ public class Player extends Entity {
         }
     }
 
-    private int calculateScreenX() {
+    public int calculateScreenX() {
 
         int screenX = Math.min(getWorldX(), this.screenX);
         int rightOffset = GameConstants.LEVEL_WIDTH - getWorldX();
@@ -194,7 +199,7 @@ public class Player extends Entity {
         return screenX;
     }
 
-    private int calculateScreenY() {
+    public int calculateScreenY() {
 
         int screenY = Math.min(getWorldY(), this.screenY);
         int bottomOffset = GameConstants.LEVEL_HEIGHT - getWorldY();
