@@ -5,6 +5,7 @@ import main.GameConstants;
 import main.GamePanel;
 import main.InputHandler;
 import object.SuperObject;
+import object.weapons.Fists;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,6 +31,7 @@ public class Player extends Entity {
     private int health = 3;
     private int shields = 3;
     private int maxShields = 3;
+    public Fists fists = new Fists(0,0,getGamePanel());
 
     public Player(GamePanel gamePanel, InputHandler inputHandler, int x, int y) {
         super(x,y,gamePanel);
@@ -121,7 +123,12 @@ public class Player extends Entity {
 
     private void updateAttack(){
         if (inputHandler.isAttackPressed()) {
-            inventory.getSelectedObject().performAttack();
+            if (inventory.getSelectedObject() == null) {
+                fists.performAttack();
+            }
+            else {
+                inventory.getSelectedObject().performAttack();
+            }
         }
     }
 

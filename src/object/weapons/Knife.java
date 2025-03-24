@@ -14,13 +14,13 @@ import java.util.Objects;
 public class Knife extends MeleeWeapon {
     private static final Logger logger = LogManager.getLogger(Knife.class);
 
+
     public Knife(int x, int y, GamePanel gamePanel) {
-        super(x, y, gamePanel,30,1);
-        DrawingUtils drawingUtils = new DrawingUtils();
+        super(x, y, gamePanel,30,1); //SET HITBOX SIZE
         super.name = "Gun";
         try {
             super.image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/objects/weapons/knife.png")));
-            super.image = drawingUtils.scaleImage(super.image, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+            super.image = DrawingUtils.scaleImage(super.image, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
             super.setScaledDownImage();
         } catch (IOException e) {
             logger.error("Failed to load knife image: {}", e.getMessage());
