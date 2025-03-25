@@ -55,8 +55,6 @@ public class Scammer extends Npc {
 
         // Draw the panel above the scammer
         drawItemPanel(g2d, screenX, screenY);
-        g2d.setColor(Color.RED);
-        g2d.draw(super.collider);
     }
 
     private void drawItemPanel(Graphics2D g2d, int x, int y) {

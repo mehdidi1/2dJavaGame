@@ -4,6 +4,7 @@ import entity.Entity;
 import entity.Inventory;
 import entity.Player;
 import object.SuperObject;
+import object.weapons.Bullet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tile.TileManager;
@@ -16,27 +17,21 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Class the game window.
- * Contains the main parameters of the game and the game loop.
- */
 public class GamePanel extends JPanel implements Runnable {
-
 
     private static final Logger logger = LogManager.getLogger(GamePanel.class);
 
-    Thread gameThread;  //Thread better for performance
+    Thread gameThread;
     InputHandler inputHandler = new InputHandler();
     TileManager tileManager = new TileManager(this);
     CollisionChecker collisionChecker = new CollisionChecker(this);
     AssetSetter assetSetter = new AssetSetter(this);
     public List<SuperObject> objects = new ArrayList<>();
     public List<Entity> entities = new LinkedList<>();
+    public List<Bullet> bullets = new ArrayList<>();
     UI ui = new UI(this);
 
-    //Player
     Player player = new Player(this, inputHandler, 500, 500);
-    private int mouseX, mouseY;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
@@ -47,9 +42,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
     }
 
-    /**
-     * put here any data related to current level (objects mobs ...)
-     */
     public void setupGame() {
         assetSetter.setObjects();
         assetSetter.setEntities();
@@ -77,20 +69,15 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     @Override
-    /*
-     * Game loop that updates the game and repaints the sprites using delta method.
-     * fps value can be changed.
-     */
     public void run() {
-        double drawInterval = 1000000000 / GameConstants.FPS; // Time interval between frames in nanoseconds
+        double drawInterval = 1000000000 / GameConstants.FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
         int drawCount = 0;
-        int lastDrawCount = 60; // Keep track of performance variation
+        int lastDrawCount = 60;
 
-        //GAME LOOP
         while (gameThread != null) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
@@ -98,27 +85,23 @@ public class GamePanel extends JPanel implements Runnable {
             lastTime = currentTime;
 
             if (delta >= 1) {
-                update(); // Update game state
-                repaint(); // Render the game
+                update();
+                repaint();
                 delta--;
                 drawCount++;
             }
 
-            if (timer >= 1000000000) { // If one second has passed
+            if (timer >= 1000000000) {
                 if (drawCount != lastDrawCount) {
                     logger.info("Fps variation: {}", drawCount);
                 }
-                drawCount = 0; // Reset frame count
-                timer = 0; // Reset timer
+                drawCount = 0;
+                timer = 0;
             }
         }
     }
 
-    /**
-     * This function must contain everything that need to be constantly updated inside the game loop
-     */
     public void update() {
-        // Update entities
         Iterator<Entity> entityIterator = entities.iterator();
         while (entityIterator.hasNext()) {
             Entity entity = entityIterator.next();
@@ -127,27 +110,32 @@ public class GamePanel extends JPanel implements Runnable {
                 entityIterator.remove();
             }
         }
+
+        Iterator<Bullet> bulletIterator = bullets.iterator();
+        while (bulletIterator.hasNext()) {
+            Bullet bullet = bulletIterator.next();
+            bullet.update();
+            if (!bullet.isActive()) {
+                bulletIterator.remove();
+            }
+        }
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         try {
-            //Tile
             tileManager.draw(g2d);
-            //Objects
             for (SuperObject object : objects) {
                 object.draw(g2d);
             }
-            //Entities
             for (Entity entity : entities) {
                 entity.draw(g2d);
             }
-
-            //UI
+            for (Bullet bullet : bullets) {
+                bullet.draw(g2d);
+            }
             ui.draw(g2d);
-
-
         } finally {
             g2d.dispose();
         }
@@ -183,5 +171,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     public List<Entity> getEntities() {
         return entities;
+    }
+
+    public List<Bullet> getBullets() {
+        return bullets;
     }
 }
