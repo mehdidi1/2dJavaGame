@@ -152,10 +152,13 @@ public abstract class MeleeWeapon extends Weapon {
     }
 
     private void getSlashFrames() {
+        double scalingFactor = 0.8;
         try {
             for (int i = 0; i < 6; i++) {
                 slashFrames[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/objects/weapons/slashAnimation/Slash_color5_frame" + (i + 4) + ".png")));
-                slashFrames[i] = DrawingUtils.scaleImage(slashFrames[i], GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+                int width = (int) ((int) (radius * Math.cos(Math.toRadians((double) sweepAngle / 2)) * 2) * scalingFactor);
+                int height = radius * 2;
+                slashFrames[i] = DrawingUtils.scaleImage(slashFrames[i], width, height);
             }
         } catch (Exception e) {
             logger.error(e);

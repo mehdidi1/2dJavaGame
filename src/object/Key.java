@@ -16,7 +16,7 @@ import java.util.Objects;
 /**
  * Class that represents the key object
  */
-public class Key extends SuperObject {
+public class Key extends utilityObject {
     private static final Logger logger = LogManager.getLogger(Key.class);
 
     public Key(int x, int y, GamePanel gamePanel) {
