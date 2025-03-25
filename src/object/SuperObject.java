@@ -19,6 +19,7 @@ public abstract class SuperObject {
     protected boolean solid = false;
     protected boolean collisionOn = false;
     protected BufferedImage scaledDownImage;
+    protected int price;
     public SuperObject(int x, int y, GamePanel gamePanel) {
         worldX = x;
         worldY = y;
@@ -92,5 +93,13 @@ public abstract class SuperObject {
 
     public void setWorldX(int worldX) {
         this.worldX = worldX;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public String getName() {
+        return name;
     }
 }

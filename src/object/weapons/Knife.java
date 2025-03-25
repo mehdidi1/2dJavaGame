@@ -16,8 +16,11 @@ public class Knife extends MeleeWeapon {
 
 
     public Knife(int x, int y, GamePanel gamePanel) {
-        super(x, y, gamePanel,30,1); //SET HITBOX SIZE
-        super.name = "Gun";
+        super(x, y, gamePanel, 30, 1); //SET HITBOX SIZE
+        super.name = "Knife";
+        super.price = 15;
+        super.damage = 3;
+
         try {
             super.image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/objects/weapons/knife.png")));
             super.image = DrawingUtils.scaleImage(super.image, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
@@ -25,6 +28,5 @@ public class Knife extends MeleeWeapon {
         } catch (IOException e) {
             logger.error("Failed to load knife image: {}", e.getMessage());
         }
-        super.damage = 3;
     }
 }

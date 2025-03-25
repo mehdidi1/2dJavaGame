@@ -12,6 +12,7 @@ import ui.UI;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -117,8 +118,14 @@ public class GamePanel extends JPanel implements Runnable {
      * This function must contain everything that need to be constantly updated inside the game loop
      */
     public void update() {
-        for (Entity e : entities) {
-            e.update();
+        // Update entities
+        Iterator<Entity> entityIterator = entities.iterator();
+        while (entityIterator.hasNext()) {
+            Entity entity = entityIterator.next();
+            entity.update();
+            if (entity.isDead()) {
+                entityIterator.remove();
+            }
         }
     }
 

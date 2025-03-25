@@ -1,5 +1,6 @@
 package main;
 
+import entity.Scammer;
 import entity.Soldier;
 import object.Key;
 import object.SuperObject;
@@ -29,6 +30,7 @@ public class AssetSetter {
     public void setEntities() {
         gamePanel.entities.add(gamePanel.getPlayer());
         gamePanel.entities.add(new Soldier(300,300,gamePanel));
+        gamePanel.entities.add(new Scammer(700,700,gamePanel,new Knife(300,300,gamePanel)));
     }
 
 }

@@ -8,6 +8,7 @@ import object.SuperObject;
 import object.weapons.Fists;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ui.DamageIndicator;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -95,13 +96,18 @@ public class Player extends Entity {
             inputHandler.setPickUpPressed(false);
         }
 
+        //CHECK ENTITY COLLISION
+        Entity collidedEntity = getGamePanel().getCollisionChecker().checkEntityCollision(this);
+        if (collidedEntity instanceof Scammer && inputHandler.isPickUpPressed()) {
+            ((Scammer) collidedEntity).interact(this);
+            inputHandler.setPickUpPressed(false);
+        }
+
         if (isWalking()) {
 
             //CHECK TILE COLLISION
             setColliding(false);
             getGamePanel().getCollisionChecker().checkTileCollision(this);
-
-
 
             if (!colliding) {
                 switch (getDirection()) {
@@ -220,6 +226,21 @@ public class Player extends Entity {
         return screenY;
     }
 
+    @Override
+    public void takeDamage(int damage) {
+        if (shields<=0) {
+            super.takeDamage(damage);
+        }
+        else {
+            shields -= damage;
+            int screenX = DrawingUtils.calculateScreenX(getWorldX(), getGamePanel());
+            int screenY = DrawingUtils.calculateScreenY(getWorldY(), getGamePanel());
+
+            DamageIndicator damageIndicator = new DamageIndicator(screenX, screenY, damage);
+            damageIndicators.add(damageIndicator);
+        }
+    }
+
     public int getScreenX() {
         return screenX;
     }
@@ -248,6 +269,4 @@ public class Player extends Entity {
     public Inventory getInventory() {
         return inventory;
     }
-
-
 }

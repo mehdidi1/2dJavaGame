@@ -27,6 +27,7 @@ public abstract class Entity {
     private Direction direction = Direction.LEFT;
     protected int health;
     protected int maxHealth;
+    protected boolean dead = false;
 
     //animation
     private static final int SPRITE_FRAME_COUNT = 8;
@@ -147,7 +148,7 @@ public abstract class Entity {
     }
 
     public void die(){
-        gamePanel.getEntities().remove(this);
+        dead = true;
     }
 
 
@@ -236,6 +237,10 @@ public abstract class Entity {
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public boolean isDead() {
+        return dead;
     }
 }
 
