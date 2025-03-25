@@ -7,10 +7,10 @@ import object.SuperObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tile.TileManager;
+import ui.UI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

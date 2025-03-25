@@ -65,6 +65,7 @@ public class Player extends Entity {
         updateAttack();
         updateAnimation();
         updateFrame();
+        updateDamageIndicators();
     }
 
     private void updateMovement() {
@@ -145,6 +146,8 @@ public class Player extends Entity {
 
         // Draw the player
         g2d.drawImage(img, screenX, screenY, null);
+
+        drawDamageIndicators(g2d);
 
         // Draw the selected item in the player's hands
         SuperObject selectedItem = inventory.getInventoryTab()[inventory.getSelectedSlot()];
@@ -245,4 +248,6 @@ public class Player extends Entity {
     public Inventory getInventory() {
         return inventory;
     }
+
+
 }

@@ -1,11 +1,15 @@
 package entity;
 
+import main.DrawingUtils;
 import main.GamePanel;
+import ui.DamageIndicator;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 /**
@@ -32,6 +36,7 @@ public abstract class Entity {
     private boolean isWalking = false;
     public BufferedImage[] currentAnimationFrames;
     private int currentAnimationFrameIndex = 0;
+    List<DamageIndicator> damageIndicators = new ArrayList<>();
 
 
     //Verifiers
@@ -108,6 +113,41 @@ public abstract class Entity {
 
         g2d.dispose();
         return flipped;
+    }
+
+    public void takeDamage(int damage) {
+        health -= damage;
+        if (health <= 0) {
+            die();
+        }
+
+        int screenX = DrawingUtils.calculateScreenX(worldX, gamePanel);
+        int screenY = DrawingUtils.calculateScreenY(worldY, gamePanel);
+
+        DamageIndicator damageIndicator = new DamageIndicator(screenX, screenY, damage);
+        damageIndicators.add(damageIndicator);
+
+    }
+
+    void updateDamageIndicators() {
+        Iterator<DamageIndicator> iterator = damageIndicators.iterator();
+        while (iterator.hasNext()) {
+            DamageIndicator indicator = iterator.next();
+            if (indicator.isExpired()) {
+                iterator.remove();
+            } else {
+                indicator.update();
+            }
+        }
+    }
+    public void drawDamageIndicators(Graphics2D g2d) {
+        for (DamageIndicator damageIndicator : damageIndicators) {
+            damageIndicator.draw(g2d);
+        }
+    }
+
+    public void die(){
+
     }
 
 

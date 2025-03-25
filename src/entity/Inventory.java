@@ -67,4 +67,8 @@ public class Inventory {
         item.setWorldY(gamePanel.getPlayer().getWorldY());
         gamePanel.getObjects().add(item);
     }
+
+    public int getNbCoins() {
+        return nbCoins;
+    }
 }

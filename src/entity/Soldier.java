@@ -19,6 +19,7 @@ public class Soldier extends Enemy {
 
     private static final int DETECTION_RADIUS = 200; // Radius within which the soldier detects the player
     private boolean isColliding = false; // Flag to indicate if the soldier is currently colliding
+    private int damage = 1;
 
     public Soldier(int x, int y, GamePanel gamePanel) {
         super(x, y, gamePanel);
@@ -59,7 +60,7 @@ public class Soldier extends Enemy {
         Entity collidedEntity = getGamePanel().getCollisionChecker().checkEntityCollision(this);
         if (collidedEntity != null) {
             // Handle collision with another entity
-            handleCollision();
+            handleCollision(collidedEntity.isPlayer);
         }
 
         updateAnimation();
@@ -91,7 +92,13 @@ public class Soldier extends Enemy {
         setWalking(true);
     }
 
-    private void handleCollision() {
+    private void handleCollision(boolean playerCollided) {
+
+        //Apply damage
+        if (playerCollided) {
+            getGamePanel().getPlayer().takeDamage(this.damage);
+        }
+
         // Stop the soldier's movement
         setWalking(false);
         setSpeed(0);

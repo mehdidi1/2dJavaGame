@@ -1,5 +1,8 @@
-package main;
+package ui;
 
+import main.DrawingUtils;
+import main.GameConstants;
+import main.GamePanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +37,7 @@ public class UI {
     public void drawCoin(Graphics2D g2d) {
         g2d.setFont(font);
         g2d.setColor(Color.BLACK);
-        g2d.drawString("x" + gamePanel.getPlayer().getSpeed(), 70, 145);
+        g2d.drawString("x" + gamePanel.getPlayer().getInventory().getNbCoins(), 70, 145);
         g2d.drawImage(coinImage, 20, 110, null);
     }
 
