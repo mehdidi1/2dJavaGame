@@ -16,7 +16,7 @@ public abstract class Entity {
 
     //Attributes
     private int worldX, worldY;
-    private int speed;
+    protected int speed;
     private final GamePanel gamePanel;
     protected Rectangle collider;
     protected boolean colliding = false;
