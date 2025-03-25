@@ -23,6 +23,7 @@ public class Gun extends RangedWeapon {
         } catch (IOException e) {
             logger.error("Failed to load gun image: {}", e.getMessage());
         }
+        this.attackCooldown = 0.5;
     }
 
 

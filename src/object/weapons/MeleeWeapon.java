@@ -34,8 +34,11 @@ public abstract class MeleeWeapon extends Weapon {
 
     @Override
     public void performAttack() {
-        slashAnimation();
-        slashCollider();
+        if (canAttack()) {
+            slashAnimation();
+            slashCollider();
+        }
+        setLastAttackTime();
     }
 
     private void slashAnimation() {

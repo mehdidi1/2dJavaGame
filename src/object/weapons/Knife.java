@@ -20,7 +20,7 @@ public class Knife extends MeleeWeapon {
         super.name = "Knife";
         super.price = 15;
         super.damage = 3;
-
+        this.attackCooldown = 0.3;
         try {
             super.image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/objects/weapons/knife.png")));
             super.image = DrawingUtils.scaleImage(super.image, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
