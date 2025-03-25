@@ -154,4 +154,28 @@ public class CollisionChecker {
 
         return index; // Return the index of the collided object, or 999 if no collision
     }
+    public Entity checkEntityCollision(Entity entity) {
+        for (Entity otherEntity : gamePanel.getEntities()) {
+            if (otherEntity != entity) {
+                // Get entity's solid area position
+                Rectangle entitySolidArea = new Rectangle(DrawingUtils.calculateScreenX(entity.getWorldX(),gamePanel) + entity.getCollider().x,
+                        DrawingUtils.calculateScreenY(entity.getWorldY(),gamePanel) + entity.getCollider().y,
+                        entity.getCollider().width,
+                        entity.getCollider().height);
+
+                // Get the other entity's solid area position
+                Rectangle otherEntitySolidArea = new Rectangle(DrawingUtils.calculateScreenX(otherEntity.getWorldX(),gamePanel) + otherEntity.getCollider().x,
+                        DrawingUtils.calculateScreenY(otherEntity.getWorldY(),gamePanel) + otherEntity.getCollider().y,
+                        otherEntity.getCollider().width,
+                        otherEntity.getCollider().height);
+
+
+                if (entitySolidArea.intersects(otherEntitySolidArea)) {
+                    return otherEntity; // Collision detected, return the other entity
+                }
+            }
+        }
+        return null; // No collision detected
+    }
+
 }

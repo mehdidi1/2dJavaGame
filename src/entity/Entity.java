@@ -21,6 +21,8 @@ public abstract class Entity {
     protected Rectangle collider;
     protected boolean colliding = false;
     private Direction direction = Direction.LEFT;
+    protected int health;
+    protected int maxHealth;
 
     //animation
     private static final int SPRITE_FRAME_COUNT = 8;
@@ -186,6 +188,14 @@ public abstract class Entity {
 
     public boolean isPlayer() {
         return isPlayer;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 }
 

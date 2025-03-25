@@ -27,8 +27,6 @@ public class Player extends Entity {
     Inventory inventory = new Inventory(getGamePanel());
 
     //PLAYER ATTRIBUTES
-    private int maxHealth = 3;
-    private int health = 3;
     private int shields = 3;
     private int maxShields = 3;
     public Fists fists = new Fists(0,0,getGamePanel());
@@ -42,6 +40,8 @@ public class Player extends Entity {
         screenX = GameConstants.SCREEN_WIDTH / 2 - GameConstants.TILE_SIZE / 2;
         screenY = GameConstants.SCREEN_HEIGHT / 2 - GameConstants.TILE_SIZE / 2;
         collider = new Rectangle(8, 12, 32, 32); //Collider box settings
+        health = 3;
+        maxHealth = 3;
     }
 
     private void getPlayerImage() {
@@ -99,6 +99,7 @@ public class Player extends Entity {
             //CHECK TILE COLLISION
             setColliding(false);
             getGamePanel().getCollisionChecker().checkTileCollision(this);
+
 
 
             if (!colliding) {
@@ -232,13 +233,6 @@ public class Player extends Entity {
         this.maxHealth = maxHealth;
     }
 
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
 
     public int getShields() {
         return shields;

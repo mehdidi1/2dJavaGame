@@ -10,18 +10,21 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Soldier extends Enemy {
 
     private static final Logger logger = LogManager.getLogger(Soldier.class);
 
     private static final int DETECTION_RADIUS = 200; // Radius within which the soldier detects the player
+    private boolean isColliding = false; // Flag to indicate if the soldier is currently colliding
 
     public Soldier(int x, int y, GamePanel gamePanel) {
         super(x, y, gamePanel);
         getSoldierImage();
-        super.speed = 2;
         super.collider = new Rectangle(8, 12, 32, 32);
+        super.speed = 3;
     }
 
     private void getSoldierImage() {
@@ -39,6 +42,10 @@ public class Soldier extends Enemy {
 
     @Override
     public void update() {
+        if (isColliding) {
+            return; // Skip update if currently colliding
+        }
+
         Player player = getGamePanel().getPlayer();
         double distanceToPlayer = Math.hypot(player.getWorldX() - getWorldX(), player.getWorldY() - getWorldY());
 
@@ -46,6 +53,13 @@ public class Soldier extends Enemy {
             moveToPlayer(player);
         } else {
             setWalking(false);
+        }
+
+        // Check for collisions with other entities
+        Entity collidedEntity = getGamePanel().getCollisionChecker().checkEntityCollision(this);
+        if (collidedEntity != null) {
+            // Handle collision with another entity
+            handleCollision();
         }
 
         updateAnimation();
@@ -75,6 +89,22 @@ public class Soldier extends Enemy {
         }
 
         setWalking(true);
+    }
+
+    private void handleCollision() {
+        // Stop the soldier's movement
+        setWalking(false);
+        setSpeed(0);
+        isColliding = true;
+
+        // Reset speed after a short delay
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                setSpeed(3);
+                isColliding = false;
+            }
+        }, 1000); // 1 second delay
     }
 
     @Override
