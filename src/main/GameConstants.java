@@ -20,8 +20,8 @@ public final class GameConstants {
     public static final int PLAYER_SPEED = 5;
 
     //Level settings
-    public static final int MAX_WORLD_ROW = 50;
-    public static final int MAX_WORLD_COL = 50;
+    public static final int MAX_WORLD_ROW = 200;
+    public static final int MAX_WORLD_COL = 200;
     public static final int LEVEL_WIDTH = TILE_SIZE * MAX_WORLD_COL;
     public static final int LEVEL_HEIGHT = TILE_SIZE * MAX_WORLD_ROW;
 }

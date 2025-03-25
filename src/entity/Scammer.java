@@ -3,6 +3,8 @@ package entity;
 import main.DrawingUtils;
 import main.GameConstants;
 import main.GamePanel;
+import object.HealthPotion;
+import object.ManaPotion;
 import object.SuperObject;
 import object.weapons.Gun;
 import org.apache.logging.log4j.LogManager;
@@ -87,9 +89,16 @@ public class Scammer extends Npc {
     }
 
     private void dropItem() {
+        // Drop the current item
         superObject.setWorldX(getWorldX());
         superObject.setWorldY(getWorldY());
         getGamePanel().getObjects().add(superObject);
-        superObject = new Gun(0,0,getGamePanel()); // Remove the item from the scammer
+
+        // Randomly select the next object (ManaPotion or HealthPotion)
+        if (Math.random() < 0.5) {
+            superObject = new ManaPotion(0, 0, getGamePanel());
+        } else {
+            superObject = new HealthPotion(0, 0, getGamePanel());
+        }
     }
 }

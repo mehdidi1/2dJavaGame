@@ -34,7 +34,7 @@ public class Coin extends utilityObject {
         int screenY = DrawingUtils.calculateScreenY(getWorldY(), gamePanel);
         g2d.drawImage(coinImage, screenX, screenY, null);
     }
-    
+
 
     @Override
     public void performAttack() {

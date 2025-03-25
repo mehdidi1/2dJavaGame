@@ -6,6 +6,7 @@ import main.GamePanel;
 import main.InputHandler;
 import object.Coin;
 import object.SuperObject;
+import object.utilityObject;
 import object.weapons.Fists;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -99,7 +100,7 @@ public class Player extends Entity {
         int objIndex = getGamePanel().getCollisionChecker().checkObject(this, true);
         if (objIndex != -1 && inputHandler.isPickUpPressed()) {
             SuperObject object = getGamePanel().getObjects().get(objIndex);
-            if (object instanceof Coin) {
+            if (object instanceof utilityObject) {
                 object.performAttack(); // Pick up the coin
             } else {
                 inventory.pickUp(objIndex); // Pick up other objects into inventory

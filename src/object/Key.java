@@ -29,6 +29,9 @@ public class Key extends utilityObject {
         } catch (IOException e) {
             logger.error("Failed to load key image: {}", e.getMessage());
         }
+
+        super.price = 30;
+
     }
 
 

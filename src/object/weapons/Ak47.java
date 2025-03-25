@@ -10,22 +10,22 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Gun extends RangedWeapon {
-    private static final Logger logger = LogManager.getLogger(Gun.class);
+public class Ak47 extends RangedWeapon {
+    private static final Logger logger = LogManager.getLogger(Ak47.class);
 
-    public Gun(int x, int y, GamePanel gamePanel) {
+    public Ak47(int x, int y, GamePanel gamePanel) {
         super(x, y, gamePanel);
-        super.name = "Gun";
+        super.name = "Ak47";
         try {
-            super.image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/objects/weapons/gun.png")));
+            super.image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/objects/weapons/ak47.png")));
             super.image = DrawingUtils.scaleImage(super.image, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
             super.setScaledDownImage();
         } catch (IOException e) {
-            logger.error("Failed to load gun image: {}", e.getMessage());
+            logger.error("Failed to load Ak47 image: {}", e.getMessage());
         }
-        this.attackCooldown = 0.5;
-        this.energyCost = 8;
-        super.price = 10;
+        this.attackCooldown = 0.2;
+        this.energyCost = 3;
+        super.price = 20;
     }
 
 

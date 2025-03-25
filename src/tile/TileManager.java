@@ -25,10 +25,10 @@ public class TileManager {
     GamePanel gamePanel;
     Tile[] tiles;
     int[][] mapTileNum;
-    HashSet<Integer> collidingTiles = new HashSet<>();
+    public HashSet<Integer> collidingTiles = new HashSet<>();
 
     public TileManager(GamePanel gamePanel) {
-        collidingTiles.addAll(Arrays.asList(0, 1, 2, 3, 4, 5, 10, 20, 30, 40, 41, 42, 43, 44, 45, 15, 25, 35));
+        collidingTiles.addAll(Arrays.asList(0, 1, 2, 3, 4, 5, 10, 20, 30, 40, 41, 42, 43, 44, 45, 15, 25, 35,36,50,51,52,53,54,55));
         this.gamePanel = gamePanel;
         tiles = new Tile[10];
         mapTileNum = new int[GameConstants.MAX_WORLD_COL][GameConstants.MAX_WORLD_ROW];
@@ -62,25 +62,27 @@ public class TileManager {
      * Loads csv map file created using Tiled into mapTileNum
      */
     public void loadMap() {
-        try (InputStream is = getClass().getResourceAsStream("/maps/biggerBaseMap.csv");
-             BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
-            int row = 0;
-            String line;
+        try (InputStream is = getClass().getResourceAsStream("/maps/level1.csv")) {
+            assert is != null;
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+                int row = 0;
+                String line;
 
-            while ((line = br.readLine()) != null && row < GameConstants.MAX_WORLD_ROW) {
-                line = line.trim(); // Remove leading & trailing spaces
+                while ((line = br.readLine()) != null && row < GameConstants.MAX_WORLD_ROW) {
+                    line = line.trim(); // Remove leading & trailing spaces
 
-                if (line.isEmpty()) continue; // Skip empty lines
+                    if (line.isEmpty()) continue; // Skip empty lines
 
-                // Split by commas instead of spaces
-                String[] numbers = line.split(",");
+                    // Split by commas instead of spaces
+                    String[] numbers = line.split(",");
 
-                for (int col = 0; col < numbers.length && col < GameConstants.MAX_WORLD_COL; col++) {
-                    if (!numbers[col].isEmpty()) { // Prevent parsing empty values
-                        mapTileNum[col][row] = Integer.parseInt(numbers[col].trim());
+                    for (int col = 0; col < numbers.length && col < GameConstants.MAX_WORLD_COL; col++) {
+                        if (!numbers[col].isEmpty()) { // Prevent parsing empty values
+                            mapTileNum[col][row] = Integer.parseInt(numbers[col].trim());
+                        }
                     }
+                    row++;
                 }
-                row++;
             }
         } catch (Exception e) {
             logger.error("Error loading map", e);
@@ -95,17 +97,20 @@ public class TileManager {
     public void draw(Graphics2D g2) {
         for (int worldRow = 0; worldRow < GameConstants.MAX_WORLD_ROW; worldRow++) {
             for (int worldCol = 0; worldCol < GameConstants.MAX_WORLD_COL; worldCol++) {
+
                 int tileNum = mapTileNum[worldCol][worldRow]; // Get the tile number from the map array
+                if (tileNum != -1){
+                    int worldX = worldCol * GameConstants.TILE_SIZE;
+                    int worldY = worldRow * GameConstants.TILE_SIZE;
+                    int screenX = DrawingUtils.calculateScreenX(worldX, gamePanel);
+                    int screenY = DrawingUtils.calculateScreenY(worldY, gamePanel);
 
-                int worldX = worldCol * GameConstants.TILE_SIZE;
-                int worldY = worldRow * GameConstants.TILE_SIZE;
-                int screenX = DrawingUtils.calculateScreenX(worldX, gamePanel);
-                int screenY = DrawingUtils.calculateScreenY(worldY, gamePanel);
-
-                // Only draw tiles that are within the screen bounds
-                if (DrawingUtils.isWithinScreenBounds(screenX, screenY)) {
-                    g2.drawImage(tiles[tileNum].image, screenX, screenY, null); // Draw the tile
+                    // Only draw tiles that are within the screen bounds
+                    if (DrawingUtils.isWithinScreenBounds(screenX, screenY)) {
+                        g2.drawImage(tiles[tileNum].image, screenX, screenY, null); // Draw the tile
+                    }
                 }
+
             }
         }
     }

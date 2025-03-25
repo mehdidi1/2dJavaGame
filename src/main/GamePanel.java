@@ -3,6 +3,7 @@ package main;
 import entity.Entity;
 import entity.Inventory;
 import entity.Player;
+import object.Button;
 import object.SuperObject;
 import object.weapons.Bullet;
 import org.apache.logging.log4j.LogManager;
@@ -28,14 +29,15 @@ public class GamePanel extends JPanel implements Runnable {
     AssetSetter assetSetter = new AssetSetter(this);
     public List<SuperObject> objects = new ArrayList<>();
     public List<Entity> entities = new LinkedList<>();
+    public List<Entity> entitiesToAdd = new ArrayList<>(); // Temporary list for new entities
     public List<Bullet> bullets = new ArrayList<>();
     UI ui = new UI(this);
 
-    Player player = new Player(this, inputHandler, 500, 500);
+    Player player = new Player(this, inputHandler, 100, 250);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
-        this.setBackground(Color.BLUE);
+        this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.addKeyListener(inputHandler);
         this.addMouseListener(inputHandler);
@@ -102,6 +104,13 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
+        // Add new entities to the main list
+        if (!entitiesToAdd.isEmpty()) {
+            entities.addAll(entitiesToAdd);
+            entitiesToAdd.clear(); // Clear the temporary list
+        }
+        // Update existing entities
+
         Iterator<Entity> entityIterator = entities.iterator();
         while (entityIterator.hasNext()) {
             Entity entity = entityIterator.next();
@@ -119,6 +128,7 @@ public class GamePanel extends JPanel implements Runnable {
                 bulletIterator.remove();
             }
         }
+        updateButtonRoom();
     }
 
     public void paintComponent(Graphics g) {
@@ -138,6 +148,17 @@ public class GamePanel extends JPanel implements Runnable {
             ui.draw(g2d);
         } finally {
             g2d.dispose();
+        }
+    }
+
+    private void updateButtonRoom(){
+        Button button = assetSetter.getButton();
+        if (button.isRoomBlocked()){
+            tileManager.collidingTiles.add(69);
+            if (entities.size()<=button.getEnemiesIInBegin()){
+                button.unblockRoom();
+                tileManager.collidingTiles.remove(69);
+            }
         }
     }
 
