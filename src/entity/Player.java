@@ -4,6 +4,7 @@ import main.DrawingUtils;
 import main.GameConstants;
 import main.GamePanel;
 import main.InputHandler;
+import object.Coin;
 import object.SuperObject;
 import object.weapons.Fists;
 import org.apache.logging.log4j.LogManager;
@@ -94,15 +95,19 @@ public class Player extends Entity {
             setWalking(false);
         }
 
-        //CHECK OBJECT COLLISION
-        int objIndex = getGamePanel().getCollisionChecker().checkObject(this,true);
+        // CHECK OBJECT COLLISION
+        int objIndex = getGamePanel().getCollisionChecker().checkObject(this, true);
         if (objIndex != -1 && inputHandler.isPickUpPressed()) {
-            System.out.println("deleting object" + objIndex);
-            inventory.pickUp(objIndex);
+            SuperObject object = getGamePanel().getObjects().get(objIndex);
+            if (object instanceof Coin) {
+                object.performAttack(); // Pick up the coin
+            } else {
+                inventory.pickUp(objIndex); // Pick up other objects into inventory
+            }
             inputHandler.setPickUpPressed(false);
         }
 
-        //CHECK ENTITY COLLISION
+        // CHECK ENTITY COLLISION
         Entity collidedEntity = getGamePanel().getCollisionChecker().checkEntityCollision(this);
         if (collidedEntity instanceof Scammer && inputHandler.isPickUpPressed()) {
             ((Scammer) collidedEntity).interact(this);
@@ -110,8 +115,7 @@ public class Player extends Entity {
         }
 
         if (isWalking()) {
-
-            //CHECK TILE COLLISION
+            // CHECK TILE COLLISION
             setColliding(false);
             getGamePanel().getCollisionChecker().checkTileCollision(this);
 
@@ -132,7 +136,6 @@ public class Player extends Entity {
                 }
             }
         }
-
     }
 
     private void updateAttack(){
