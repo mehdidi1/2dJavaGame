@@ -109,8 +109,7 @@ public abstract class MeleeWeapon extends Weapon {
                     );
 
                     if (sweepArea.intersects(absoluteEntityCollider)) {
-                        System.out.println("Hit enemy!");
-                        // entity.takeDamage(damage);
+                        entity.takeDamage(damage);
                     }
                 }
             }

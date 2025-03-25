@@ -5,7 +5,7 @@ import object.SuperObject;
 
 public abstract class Weapon extends SuperObject {
 
-    protected double damage;
+    protected int damage;
     protected double attackCooldown;
 
     public Weapon(int x, int y, GamePanel gamePanel) {

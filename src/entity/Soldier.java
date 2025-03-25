@@ -26,6 +26,8 @@ public class Soldier extends Enemy {
         getSoldierImage();
         super.collider = new Rectangle(8, 12, 32, 32);
         super.speed = 3;
+        super.maxHealth = 3;
+        super.health = maxHealth;
     }
 
     private void getSoldierImage() {
@@ -43,6 +45,7 @@ public class Soldier extends Enemy {
 
     @Override
     public void update() {
+        super.update();
         if (isColliding) {
             return; // Skip update if currently colliding
         }
@@ -116,6 +119,7 @@ public class Soldier extends Enemy {
 
     @Override
     public void draw(Graphics2D g2d) {
+        super.draw(g2d);
         BufferedImage img = currentAnimationFrames[getCurrentAnimationFrameIndex()];
         boolean facingLeft = isFacingLeft();
         if (facingLeft) {

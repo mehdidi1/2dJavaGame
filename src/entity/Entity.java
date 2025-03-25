@@ -147,7 +147,7 @@ public abstract class Entity {
     }
 
     public void die(){
-
+        gamePanel.getEntities().remove(this);
     }
 
 

@@ -25,5 +25,6 @@ public class Knife extends MeleeWeapon {
         } catch (IOException e) {
             logger.error("Failed to load knife image: {}", e.getMessage());
         }
+        super.damage = 3;
     }
 }
