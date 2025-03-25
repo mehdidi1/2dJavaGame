@@ -33,6 +33,9 @@ public class Player extends Entity {
     private int maxEnergy = 100;
     private int maxShields = 3;
     public Fists fists = new Fists(0,0,getGamePanel());
+    private int shieldRegenRate = 1; // Shields regenerated per second
+    private long lastDamageTime = 0; // Time of the last damage in nanoseconds
+    private double shieldRegenCooldown = 5.0; //
 
     public Player(GamePanel gamePanel, InputHandler inputHandler, int x, int y) {
         super(x,y,gamePanel);
@@ -69,6 +72,7 @@ public class Player extends Entity {
         updateAnimation();
         updateFrame();
         updateDamageIndicators();
+        updateShieldRegen();
     }
 
     private void updateMovement() {
@@ -240,6 +244,21 @@ public class Player extends Entity {
 
             DamageIndicator damageIndicator = new DamageIndicator(screenX, screenY, damage);
             damageIndicators.add(damageIndicator);
+        }
+
+        lastDamageTime = System.nanoTime();
+    }
+
+    private void updateShieldRegen() {
+        long currentTime = System.nanoTime();
+        double timeSinceLastDamage = (currentTime - lastDamageTime) / 1_000_000_000.0; // Convert nanoseconds to seconds
+
+        if (timeSinceLastDamage >= shieldRegenCooldown && shields < maxShields) {
+            shields += shieldRegenRate;
+            if (shields > maxShields) {
+                shields = maxShields;
+            }
+            lastDamageTime = currentTime;
         }
     }
 
