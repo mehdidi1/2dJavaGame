@@ -24,6 +24,7 @@ public class Gun extends RangedWeapon {
             logger.error("Failed to load gun image: {}", e.getMessage());
         }
         this.attackCooldown = 0.5;
+        this.energyCost = 8;
     }
 
 

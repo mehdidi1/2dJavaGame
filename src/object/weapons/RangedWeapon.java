@@ -28,7 +28,7 @@ public class RangedWeapon extends Weapon {
 
     @Override
     public void performAttack() {
-        if (canAttack()) { // Check if the weapon can attack
+        if (canAttack()&& gamePanel.getPlayer().getEnergy() >= super.energyCost) { // Check if the weapon can attack
             Point mousePosition = gamePanel.getMousePosition();
             if (mousePosition != null) {
                 int playerX = gamePanel.getPlayer().calculateScreenX();
@@ -40,6 +40,7 @@ public class RangedWeapon extends Weapon {
                 gamePanel.getBullets().add(bullet);
                 setLastAttackTime(); // Update the last attack time
             }
+            gamePanel.getPlayer().setEnergy(gamePanel.getPlayer().getEnergy() - super.energyCost);
         }
     }
 }

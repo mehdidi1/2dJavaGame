@@ -29,6 +29,8 @@ public class Player extends Entity {
 
     //PLAYER ATTRIBUTES
     private int shields = 3;
+    private int energy = 100;
+    private int maxEnergy = 100;
     private int maxShields = 3;
     public Fists fists = new Fists(0,0,getGamePanel());
 
@@ -268,5 +270,17 @@ public class Player extends Entity {
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public int getMaxEnergy() {
+        return maxEnergy;
+    }
+
+    public int getEnergy() {
+        return energy;
+    }
+
+    public void setEnergy(int energy) {
+        this.energy = energy;
     }
 }

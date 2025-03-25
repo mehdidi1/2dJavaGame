@@ -1,5 +1,6 @@
 package ui;
 
+import entity.Player;
 import main.DrawingUtils;
 import main.GameConstants;
 import main.GamePanel;
@@ -32,13 +33,14 @@ public class UI {
         drawInventory(g2d);
         drawHearts(g2d);
         drawShields(g2d);
+        drawEnergyBar(g2d);
     }
 
     public void drawCoin(Graphics2D g2d) {
         g2d.setFont(font);
         g2d.setColor(Color.BLACK);
-        g2d.drawString("x" + gamePanel.getPlayer().getInventory().getNbCoins(), 70, 145);
-        g2d.drawImage(coinImage, 20, 110, null);
+        g2d.drawString("x" + gamePanel.getPlayer().getInventory().getNbCoins(), 70, 185);
+        g2d.drawImage(coinImage, 20, 150, null);
     }
 
     public void drawInventory(Graphics2D g2d) {
@@ -122,6 +124,32 @@ public class UI {
                 g2d.drawImage(emptyShieldImage, x, startY, null);
             }
         }
+    }
+
+    private void drawEnergyBar(Graphics2D g2d) {
+        int barWidth = 200; // Width of the energy bar
+        int barHeight = 20; // Height of the energy bar
+        int x = 20; // X position of the energy bar
+        int y = 120; // Y position of the energy bar
+
+        Player player = gamePanel.getPlayer();
+        int energy = player.getEnergy();
+        int maxEnergy = player.getMaxEnergy();
+
+        // Calculate the width of the filled portion of the bar
+        int filledWidth = (int) ((double) energy / maxEnergy * barWidth);
+
+        // Draw the background of the bar
+        g2d.setColor(Color.DARK_GRAY);
+        g2d.fillRect(x, y, barWidth, barHeight);
+
+        // Draw the filled portion of the bar
+        g2d.setColor(Color.BLUE);
+        g2d.fillRect(x, y, filledWidth, barHeight);
+
+        // Draw the border of the bar
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(x, y, barWidth, barHeight);
     }
 
     private void loadImages() {

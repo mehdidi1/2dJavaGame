@@ -34,11 +34,13 @@ public abstract class MeleeWeapon extends Weapon {
 
     @Override
     public void performAttack() {
-        if (canAttack()) {
+        if (canAttack() && gamePanel.getPlayer().getEnergy() >= super.energyCost) {
             slashAnimation();
             slashCollider();
+            gamePanel.getPlayer().setEnergy(gamePanel.getPlayer().getEnergy() - super.energyCost);
+            setLastAttackTime();
         }
-        setLastAttackTime();
+
     }
 
     private void slashAnimation() {

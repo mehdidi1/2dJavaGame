@@ -8,6 +8,7 @@ public abstract class Weapon extends SuperObject {
     protected int damage;
     protected double attackCooldown; // Cooldown in seconds
     private long lastAttackTime = 0; // Time of the last attack in nanoseconds
+    protected int energyCost;
 
     public Weapon(int x, int y, GamePanel gamePanel) {
         super(x, y, gamePanel);
