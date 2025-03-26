@@ -11,7 +11,7 @@ public class Inventory {
     GamePanel gamePanel;
     private int inventorySize;
     private final SuperObject[] inventoryTab;
-    private int nbCoins = 15;
+    private int nbCoins = 0;
     private int selectedSlot = 0;
 
     public Inventory(GamePanel gamePanel) {

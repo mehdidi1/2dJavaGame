@@ -34,5 +34,11 @@ public class Key extends utilityObject {
 
     }
 
+    @Override
+    public void performAttack() {
+        // Trigger the win condition
+        gamePanel.winGame();
+    }
+
 
 }

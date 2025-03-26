@@ -21,6 +21,7 @@ import java.util.List;
 public class GamePanel extends JPanel implements Runnable {
 
     private static final Logger logger = LogManager.getLogger(GamePanel.class);
+    private String victoryMessage = null;
 
     Thread gameThread;
     InputHandler inputHandler = new InputHandler();
@@ -146,6 +147,16 @@ public class GamePanel extends JPanel implements Runnable {
                 bullet.draw(g2d);
             }
             ui.draw(g2d);
+
+            // Draw the victory message if it exists
+            if (victoryMessage != null) {
+                g2d.setColor(Color.YELLOW);
+                g2d.setFont(new Font("Arial", Font.BOLD, 36));
+                FontMetrics metrics = g2d.getFontMetrics();
+                int x = (getWidth() - metrics.stringWidth(victoryMessage)) / 2;
+                int y = getHeight() / 2;
+                g2d.drawString(victoryMessage, x, y);
+            }
         } finally {
             g2d.dispose();
         }
@@ -153,14 +164,32 @@ public class GamePanel extends JPanel implements Runnable {
 
     private void updateButtonRoom(){
         Button button = assetSetter.getButton();
-        if (button.isRoomBlocked()){
-            tileManager.collidingTiles.add(69);
+        if (button.isRoomBlocked()&&entitiesToAdd.isEmpty()) {
+            tileManager.getTiles()[69].collision = true; //block room
             if (entities.size()<=button.getEnemiesIInBegin()){
                 button.unblockRoom();
-                tileManager.collidingTiles.remove(69);
+                tileManager.getTiles()[69].collision = false; //unblock room
             }
         }
     }
+
+    public void winGame() {
+        // Set the victory message
+        victoryMessage = "Congratulations! You have won the game!";
+
+        // Repaint the screen to show the message
+        repaint();
+
+        // Suspend the game thread
+        try {
+            Thread.sleep(Long.MAX_VALUE); // Effectively pauses the game
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Restore the interrupted status
+            System.out.println("Game thread interrupted.");
+        }
+    }
+
+
 
     public int getTileSize() {
         return GameConstants.TILE_SIZE;
